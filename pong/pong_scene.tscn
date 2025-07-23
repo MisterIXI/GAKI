@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=3 uid="uid://cs58djt7nrl3x"]
+
+[ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_o7i24"]
+[ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="1_oft38"]
+[ext_resource type="Script" uid="uid://7pcgf28qjtc" path="res://pong_ball.gd" id="1_r720o"]
+[ext_resource type="Script" uid="uid://bir7031he5yaj" path="res://human_controller.gd" id="2_ktbx5"]
+
+[sub_resource type="Gradient" id="Gradient_1n30b"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oft38"]
+gradient = SubResource("Gradient_1n30b")
+width = 1280
+height = 720
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktbx5"]
+size = Vector2(40, 40)
+
+[sub_resource type="Gradient" id="Gradient_k7oiv"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r720o"]
+gradient = SubResource("Gradient_k7oiv")
+width = 40
+height = 40
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k7oiv"]
+size = Vector2(1280, 20)
+
+[node name="PongScene" type="Node2D" node_paths=PackedStringArray("label_a", "label_b")]
+script = ExtResource("1_o7i24")
+label_a = NodePath("ScoreA")
+label_b = NodePath("ScoreB")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = SubResource("GradientTexture2D_oft38")
+metadata/_edit_lock_ = true
+
+[node name="PongBall" type="CharacterBody2D" parent="."]
+position = Vector2(640, 360)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_r720o")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PongBall"]
+shape = SubResource("RectangleShape2D_ktbx5")
+
+[node name="Sprite2D" type="Sprite2D" parent="PongBall"]
+texture = SubResource("GradientTexture2D_r720o")
+
+[node name="PaddleA" parent="." instance=ExtResource("1_oft38")]
+position = Vector2(30, 360)
+
+[node name="HumanControllerA" type="Node" parent="PaddleA"]
+script = ExtResource("2_ktbx5")
+
+[node name="PaddleB" parent="." instance=ExtResource("1_oft38")]
+position = Vector2(1250, 360)
+
+[node name="HumanControllerB" type="Node" parent="PaddleB"]
+script = ExtResource("2_ktbx5")
+action_up = "PaddleBUp"
+action_down = "PaddleBDown"
+
+[node name="ScoreA" type="Label" parent="."]
+offset_left = 60.0
+offset_top = 60.0
+offset_right = 100.0
+offset_bottom = 83.0
+theme_override_font_sizes/font_size = 111
+text = "00"
+
+[node name="ScoreB" type="Label" parent="."]
+offset_left = 1093.0
+offset_top = 60.0
+offset_right = 1220.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 111
+text = "00"
+visible_characters_behavior = 4
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="TopWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, -10)
+shape = SubResource("RectangleShape2D_k7oiv")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 730)
+shape = SubResource("RectangleShape2D_k7oiv")
