@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cs58djt7nrl3x"]
+[gd_scene load_steps=12 format=3 uid="uid://cs58djt7nrl3x"]
 
 [ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_o7i24"]
 [ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="1_oft38"]
@@ -29,8 +29,12 @@ height = 40
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7oiv"]
 size = Vector2(1280, 20)
 
-[node name="PongScene" type="Node2D" node_paths=PackedStringArray("label_a", "label_b")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
+size = Vector2(20, 720)
+
+[node name="PongScene" type="Node2D" node_paths=PackedStringArray("ball", "label_a", "label_b")]
 script = ExtResource("1_o7i24")
+ball = NodePath("PongBall")
 label_a = NodePath("ScoreA")
 label_b = NodePath("ScoreB")
 
@@ -39,7 +43,7 @@ position = Vector2(640, 360)
 texture = SubResource("GradientTexture2D_oft38")
 metadata/_edit_lock_ = true
 
-[node name="PongBall" type="CharacterBody2D" parent="."]
+[node name="PongBall" type="CharacterBody2D" parent="." groups=["ball"]]
 position = Vector2(640, 360)
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_r720o")
@@ -91,3 +95,20 @@ shape = SubResource("RectangleShape2D_k7oiv")
 [node name="BottomWall" type="CollisionShape2D" parent="Walls"]
 position = Vector2(640, 730)
 shape = SubResource("RectangleShape2D_k7oiv")
+
+[node name="GoalLeft" type="Area2D" parent="."]
+position = Vector2(-10, 360)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalLeft"]
+shape = SubResource("RectangleShape2D_r720o")
+
+[node name="GoalRight" type="Area2D" parent="."]
+position = Vector2(1290, 360)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalRight"]
+shape = SubResource("RectangleShape2D_r720o")
+
+[connection signal="body_entered" from="GoalLeft" to="." method="_on_goal_left_body_entered"]
+[connection signal="body_entered" from="GoalRight" to="." method="_on_goal_right_body_entered"]
