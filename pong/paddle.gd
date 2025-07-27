@@ -7,5 +7,5 @@ var movement: float = 0.0
 
 func _physics_process(delta):
 	if movement != 0.0:
-		velocity.y = movement * speed
+		velocity.y = clampf(movement, -1.0, 1.0) * speed
 		move_and_collide(velocity * delta)

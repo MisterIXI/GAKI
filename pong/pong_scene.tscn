@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cs58djt7nrl3x"]
+[gd_scene load_steps=14 format=3 uid="uid://cs58djt7nrl3x"]
 
 [ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_o7i24"]
 [ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="1_oft38"]
 [ext_resource type="Script" uid="uid://7pcgf28qjtc" path="res://pong_ball.gd" id="1_r720o"]
-[ext_resource type="Script" uid="uid://bir7031he5yaj" path="res://human_controller.gd" id="2_ktbx5"]
+[ext_resource type="Script" uid="uid://b3oevhot6xvip" path="res://simple_ai.gd" id="5_o7i24"]
+[ext_resource type="Script" uid="uid://cv5x1114opjq6" path="res://predictive_ai.gd" id="6_5mdgq"]
 
 [sub_resource type="Gradient" id="Gradient_1n30b"]
 offsets = PackedFloat32Array(0)
@@ -29,8 +30,11 @@ height = 40
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7oiv"]
 size = Vector2(1280, 20)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvcuf"]
 size = Vector2(20, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
+size = Vector2(30, 720)
 
 [node name="PongScene" type="Node2D" node_paths=PackedStringArray("ball", "label_a", "label_b")]
 script = ExtResource("1_o7i24")
@@ -57,42 +61,59 @@ texture = SubResource("GradientTexture2D_r720o")
 
 [node name="PaddleA" parent="." instance=ExtResource("1_oft38")]
 position = Vector2(30, 360)
+speed = 1400.0
 
-[node name="HumanControllerA" type="Node" parent="PaddleA"]
-script = ExtResource("2_ktbx5")
+[node name="PredictiveAI" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("ball")]
+top_level = true
+z_index = 1
+script = ExtResource("6_5mdgq")
+ball = NodePath("../../PongBall")
+detector_layer = 3
 
 [node name="PaddleB" parent="." instance=ExtResource("1_oft38")]
 position = Vector2(1250, 360)
+speed = 1400.0
 
-[node name="HumanControllerB" type="Node" parent="PaddleB"]
-script = ExtResource("2_ktbx5")
-action_up = "PaddleBUp"
-action_down = "PaddleBDown"
+[node name="PredictiveAI" type="Node2D" parent="PaddleB" node_paths=PackedStringArray("ball")]
+process_mode = 4
+visible = false
+top_level = true
+z_index = 1
+script = ExtResource("6_5mdgq")
+ball = NodePath("../../PongBall")
+
+[node name="Node" type="Node" parent="PaddleB" node_paths=PackedStringArray("ball")]
+script = ExtResource("5_o7i24")
+ball = NodePath("../../PongBall")
 
 [node name="ScoreA" type="Label" parent="."]
-offset_left = 60.0
+offset_left = 160.0
 offset_top = 60.0
-offset_right = 100.0
-offset_bottom = 83.0
+offset_right = 287.0
+offset_bottom = 212.0
 theme_override_font_sizes/font_size = 111
 text = "00"
 
 [node name="ScoreB" type="Label" parent="."]
-offset_left = 1093.0
+offset_left = 993.0
 offset_top = 60.0
-offset_right = 1220.0
+offset_right = 1120.0
 offset_bottom = 212.0
 theme_override_font_sizes/font_size = 111
 text = "00"
 visible_characters_behavior = 4
 
-[node name="Walls" type="StaticBody2D" parent="."]
+[node name="TopWall" type="StaticBody2D" parent="."]
+collision_layer = 7
 
-[node name="TopWall" type="CollisionShape2D" parent="Walls"]
+[node name="TopWall" type="CollisionShape2D" parent="TopWall"]
 position = Vector2(640, -10)
 shape = SubResource("RectangleShape2D_k7oiv")
 
-[node name="BottomWall" type="CollisionShape2D" parent="Walls"]
+[node name="BottomWall" type="StaticBody2D" parent="."]
+collision_layer = 7
+
+[node name="BottomWall" type="CollisionShape2D" parent="BottomWall"]
 position = Vector2(640, 730)
 shape = SubResource("RectangleShape2D_k7oiv")
 
@@ -101,14 +122,38 @@ position = Vector2(-10, 360)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalLeft"]
-shape = SubResource("RectangleShape2D_r720o")
+shape = SubResource("RectangleShape2D_rvcuf")
+debug_color = Color(1, 0.1882353, 0.14509805, 0.41960785)
 
 [node name="GoalRight" type="Area2D" parent="."]
 position = Vector2(1290, 360)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalRight"]
-shape = SubResource("RectangleShape2D_r720o")
+shape = SubResource("RectangleShape2D_rvcuf")
+debug_color = Color(1, 0.1882353, 0.14509805, 0.41960785)
 
+[node name="PaddleDetectionWalls" type="StaticBody2D" parent="." groups=["detectors"]]
+collision_layer = 2
+collision_mask = 0
+
+[node name="DetectionLeft" type="CollisionShape2D" parent="PaddleDetectionWalls"]
+position = Vector2(30, 360)
+shape = SubResource("RectangleShape2D_r720o")
+debug_color = Color(0, 0.4627451, 0.14509805, 0.41960785)
+
+[node name="PaddleDetectionWalls2" type="StaticBody2D" parent="." groups=["detectors"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="DetectionRight" type="CollisionShape2D" parent="PaddleDetectionWalls2"]
+position = Vector2(1250, 360)
+shape = SubResource("RectangleShape2D_r720o")
+debug_color = Color(0, 0.4627451, 0.14509805, 0.41960785)
+
+[connection signal="kickoff" from="." to="PaddleB/PredictiveAI" method="_on_kickoff"]
+[connection signal="kickoff" from="." to="PaddleA/PredictiveAI" method="_on_kickoff"]
+[connection signal="ball_collision" from="PongBall" to="PaddleB/PredictiveAI" method="_on_ball_collision"]
+[connection signal="ball_collision" from="PongBall" to="PaddleA/PredictiveAI" method="_on_ball_collision"]
 [connection signal="body_entered" from="GoalLeft" to="." method="_on_goal_left_body_entered"]
 [connection signal="body_entered" from="GoalRight" to="." method="_on_goal_right_body_entered"]

@@ -7,6 +7,8 @@ extends Node2D
 var score_a: int = 0
 var score_b: int = 0
 
+signal kickoff
+
 func _ready():
 	reset_ball(true)
 
@@ -35,4 +37,5 @@ func reset_ball(towards_left: bool = true) -> void:
 		ball.velocity = Vector2(300, 0)
 	# rotate by 10% of 180 degrees
 	ball.velocity = ball.velocity.rotated(randf() * PI * 0.1)
+	kickoff.emit()
 	

@@ -2,8 +2,10 @@ class_name PongBall
 extends CharacterBody2D
 const BOUNCE_ANGLE: float = 45
 
+signal ball_collision(collision: KinematicCollision2D)
+
 func _ready():
-	velocity = Vector2(200, 0)
+	velocity = Vector2(300, 0)
 
 func _physics_process(delta):
 	var collision: KinematicCollision2D = move_and_collide(velocity * delta)
@@ -12,6 +14,7 @@ func _physics_process(delta):
 		var collider: Node = collision.get_collider()
 		if collider.is_in_group("paddles"):
 			_handle_paddle_collision(collision)
+			ball_collision.emit(collision)
 		else:
 			velocity = velocity.bounce(collision.get_normal())
 	pass
@@ -26,18 +29,11 @@ func _handle_paddle_collision(collision: KinematicCollision2D) -> void:
 	var hit_position: Vector2 = collision.get_position()
 	var diff = hit_position.y - paddle_center.y
 	diff = diff / (paddle.size / 2.0)
-	velocity = velocity.bounce(collision.get_normal())
 	var magnitude: float = velocity.length()
-	velocity = velocity.normalized() * (magnitude + abs(diff))
-	# only rotate if angle not already too extreme
-	var vel_angle_deg: float = rad_to_deg(velocity.angle())
-	print("Ball velocity angle: %.2f degrees" % vel_angle_deg)
-	if (
-		# between -40 and 40 (towards right)
-		(vel_angle_deg > -40.0 and vel_angle_deg < 40.0) or
-		# between 140 and -140 (towards left)
-		(vel_angle_deg > 140.0 or vel_angle_deg < -140.0)
-	):
-		# rotate by diff
-		velocity = velocity.rotated(deg_to_rad(diff * BOUNCE_ANGLE))
-		print("Rotated ball by %.2f degrees" % (diff * BOUNCE_ANGLE))
+	velocity = collision.get_normal() * (magnitude + abs(diff) * 100.0)
+	if velocity.x > 0:
+		# when going left
+		velocity = velocity.rotated(deg_to_rad(BOUNCE_ANGLE * diff))
+	else:
+		# when going right
+		velocity = velocity.rotated(deg_to_rad(-BOUNCE_ANGLE * diff))
