@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://b040gbnfvmanc"]
+
+[ext_resource type="Script" uid="uid://ctm4cdwaryec" path="res://paddle_2.gd" id="1_s5ksy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e3kos"]
+size = Vector2(30, 120)
+
+[sub_resource type="Gradient" id="Gradient_1plqi"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5rqn3"]
+gradient = SubResource("Gradient_1plqi")
+width = 30
+height = 120
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_s5ksy")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e3kos")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_5rqn3")

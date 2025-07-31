@@ -27,7 +27,7 @@ func _on_ball_collision(collision: KinematicCollision2D) -> void:
 		# if the ball hit itself, just set the target to the center
 		target_y = 720.0 / 2.0
 		raycast_path.clear()
-		print("Ball hit itself, resetting target to center.")
+		# print("Ball hit itself, resetting target to center.")
 		queue_redraw()
 
 func _on_kickoff() -> void:
@@ -52,7 +52,7 @@ func calc_new_target_y(start_pos: Vector2, start_dir: Vector2, prev_collider: No
 			if emergency_counter > 50:
 				push_error("Emergency counter exceeded 100. Stopping raycast to prevent infinite loop.")
 				return
-			print("dir: ", direction)
+			# print("dir: ", direction)
 			var query = PhysicsRayQueryParameters2D.create(
 				curr_pos,
 				ray_end,
@@ -70,17 +70,17 @@ func calc_new_target_y(start_pos: Vector2, start_dir: Vector2, prev_collider: No
 				is_finished = true
 				target_y = result["position"].y
 				raycast_path.append(result["position"])
-				target_y += (randf() - 0.5) * 100
-				print("target_y set to: ", target_y)
+				target_y += (randf() - 0.5) * 40 # Add some randomness to the target Y position
+				# print("target_y set to: ", target_y)
 			else:
 				if result["normal"] == Vector2.ZERO:
-					print("pos: ", result["position"])
+					# print("pos: ", result["position"])
 					push_error("Raycast hit a collider with no normal. Aborting...")
 					return
 				curr_pos = result["position"]
 				direction = direction.bounce(result["normal"])
 				ray_end = curr_pos + direction * ray_length
-				print("bounce at: ", curr_pos)
+				# print("bounce at: ", curr_pos)
 				raycast_path.append(curr_pos)
 				last_collider = result["collider"]
 
@@ -89,7 +89,7 @@ func _draw():
 		var draw_arr: Array = []
 		for point in raycast_path:
 			draw_arr.append(point)
-		print(raycast_path)
+		# print(raycast_path)
 		for i in range(raycast_path.size() - 1):
 			draw_line(draw_arr[i], draw_arr[i + 1], Color(1, 0, 0), 3)
 		draw_circle(draw_arr[0], 5, Color(0, 1, 0))  # Start point
