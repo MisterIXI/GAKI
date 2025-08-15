@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://blygt43g1cr4l"]
+
+[node name="MainScene" type="Node2D"]
+
+[node name="ArenaRoot" type="Node2D" parent="."]
