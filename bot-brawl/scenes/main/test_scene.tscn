@@ -1,0 +1,149 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5jydllpdj4wl"]
+
+[ext_resource type="Texture2D" uid="uid://dnmk0drexyse8" path="res://assets/Meteors/spaceMeteors_001.png" id="1_8dtwd"]
+[ext_resource type="Script" uid="uid://clo3giwumhtks" path="res://scenes/character/test_ship.gd" id="2_d2t3o"]
+[ext_resource type="Texture2D" uid="uid://636iuo4rxi0t" path="res://assets/Ships/spaceShips_001.png" id="2_wvjab"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d2t3o"]
+size = Vector2(130, 187)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ny3xg"]
+vertices = PackedVector2Array(2524.9922, -704.3828, 2564, 942.2422, 2531.039, 587, 2476.7734, 384.47656, 2476.7734, 789.52344, 1805.9375, 1460, 1615.125, 1465.1641, 1667.7734, 1412.5234, 966.22656, 1412.5234, 1034.5859, 1480.8828, 771.72656, 1488, 2328.5234, 236.22656, 1908.0391, -268, 1853.7734, -470.52344, 2126, 181.96094, 1853.7734, -65.47656, 1923.4766, 236.22656, 1705.5234, 82.77344, 1152.2266, -470.52344, 1097.9609, -268, 867.03906, -382, 812.77344, -584.52344, -237.96094, 807, 41.960938, 617, 96.22656, 819.52344, -292.22656, 1009.52344, -292.22656, 604.47656, 96.22656, 414.47656, 2328.5234, 937.77344, -465.96094, -180, 56.960938, -382, 111.22656, -179.47656, -520.22656, 22.523438, 812.77344, -179.47656, 1152.2266, -65.47656, 797.77344, 414.47656, 1503, 137.03906, 1775.2266, 384.47656, -520.22656, -382.52344, 111.22656, -584.52344, 1522.8594, -887.1797, 2542.9531, -884.03125, 1705.5234, -618.77344, 1503, -673.03906, 2576.7422, 1470.8516, 2126, 992.03906, 1923.4766, 937.77344, 1722.0391, 1210, 1667.7734, 1007.47656, 1775.2266, 789.52344, 1519.5234, 859.22656, 1720.9609, 587, -1636, 429.9297, -1653.8594, -896.96094, -1001.3594, -894.96094, -1221.7734, -382.52344, 1317, 804.96094, 852.03906, 617, 1114.4766, 859.22656, 797.77344, 819.52344, 966.22656, 1007.47656, 649.52344, 967.77344, 911.96094, 1210, -633.9219, 1492.9922, 447, 1022.03906, -845.52344, 1157.7734, -1636, 1482.1016, -993.77344, 1009.52344, 1300.4766, 82.77344, 664.52344, -31.226563, 649.52344, 266.22656, 462, 23.039063, 447, 211.96094, 259.47656, -31.226563, 244.47656, 266.22656, 244.47656, 967.77344, -440.47656, 1157.7734, -643, 1212.0391, -1048.0391, 807, -1073.5234, 170.77344, -993.77344, 604.47656, -1221.7734, 22.523438, -440.47656, 456.22656, -668.47656, 170.77344, 664.52344, -732.77344, 1300.4766, -618.77344, -668.47656, -530.77344, 259.47656, -732.77344, -643, 401.96094, -871, 225.03906, -845.52344, 456.22656, -1276.0391, -180, -871, -585.03906, 462, -787.03906, -1073.5234, -530.77344)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(4, 2, 1), PackedInt32Array(5, 6, 7), PackedInt32Array(8, 9, 10), PackedInt32Array(0, 3, 11, 12, 13), PackedInt32Array(12, 11, 14, 15), PackedInt32Array(15, 14, 16, 17), PackedInt32Array(18, 19, 20, 21), PackedInt32Array(22, 23, 24, 25), PackedInt32Array(23, 22, 26, 27), PackedInt32Array(28, 4, 1), PackedInt32Array(29, 30, 31, 32), PackedInt32Array(33, 20, 19, 34, 35), PackedInt32Array(36, 17, 16, 37, 35), PackedInt32Array(30, 29, 38, 39), PackedInt32Array(40, 41, 0, 13, 42), PackedInt32Array(40, 42, 43), PackedInt32Array(28, 1, 44, 5, 45), PackedInt32Array(46, 45, 5, 7, 47), PackedInt32Array(46, 47, 48, 49), PackedInt32Array(49, 48, 50, 51), PackedInt32Array(52, 53, 54, 55), PackedInt32Array(51, 50, 56, 57, 35, 37), PackedInt32Array(57, 56, 58, 59), PackedInt32Array(59, 58, 60, 61), PackedInt32Array(61, 60, 62, 10, 63, 64), PackedInt32Array(65, 63, 66, 52, 67), PackedInt32Array(62, 8, 10), PackedInt32Array(68, 36, 35), PackedInt32Array(34, 68, 35), PackedInt32Array(69, 33, 35, 70), PackedInt32Array(71, 69, 70, 72), PackedInt32Array(73, 71, 72, 74, 32), PackedInt32Array(75, 64, 63), PackedInt32Array(25, 24, 75, 63, 76), PackedInt32Array(77, 76, 63), PackedInt32Array(65, 77, 63), PackedInt32Array(78, 67, 52), PackedInt32Array(79, 80, 78, 52, 81), PackedInt32Array(27, 26, 82, 83, 32, 74), PackedInt32Array(84, 40, 43, 85, 21), PackedInt32Array(85, 18, 21), PackedInt32Array(39, 38, 86, 87), PackedInt32Array(32, 31, 73), PackedInt32Array(83, 82, 88, 89), PackedInt32Array(89, 88, 90, 79), PackedInt32Array(79, 90, 80), PackedInt32Array(91, 81, 52), PackedInt32Array(87, 86, 92, 54, 93), PackedInt32Array(40, 84, 93), PackedInt32Array(54, 40, 93), PackedInt32Array(54, 92, 94), PackedInt32Array(54, 94, 55), PackedInt32Array(52, 55, 91)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-1664, -907, -1646, 430, -1646, 1492, -634, 1503, 772, 1498, 1806, 1470, 2587, 1481, 2574, 942, 2535, -704, 2554, -894, 1522.887, -897.17786, -1001.327, -904.9576)])
+
+[node name="TestScene" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(466, 287)
+zoom = Vector2(0.245, 0.245)
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." node_paths=PackedStringArray("nav_agent")]
+position = Vector2(384, 49)
+can_sleep = false
+linear_damp = 1.0
+script = ExtResource("2_d2t3o")
+nav_agent = NodePath("NavigationAgent2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+texture = ExtResource("2_wvjab")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(-4, 1.5)
+shape = SubResource("RectangleShape2D_d2t3o")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="RigidBody2D"]
+path_desired_distance = 70.0
+target_desired_distance = 50.0
+avoidance_enabled = true
+radius = 118.25
+debug_enabled = true
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(-3, -11)
+navigation_polygon = SubResource("NavigationPolygon_ny3xg")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(447, 617)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D3"]
+texture = ExtResource("1_8dtwd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D3"]
+polygon = PackedVector2Array(-211, -65, -118, -163, 8, -225, 140, -168, 211, -49, 198, 83, 133, 202, 3, 223, -135, 182, -203, 66)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D/StaticBody2D3"]
+radius = 405.04
+vertices = PackedVector2Array(9.615, 0, 0, 0, -22.135, 85.825)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(-871, -180)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D4"]
+texture = ExtResource("1_8dtwd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D4"]
+polygon = PackedVector2Array(-211, -65, -118, -163, 8, -225, 140, -168, 211, -49, 198, 83, 133, 202, 3, 223, -135, 182, -203, 66)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D/StaticBody2D4"]
+radius = 405.04
+vertices = PackedVector2Array(9.615, 0, 0, 0, -22.135, 85.825)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(-643, 807)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D5"]
+texture = ExtResource("1_8dtwd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D5"]
+polygon = PackedVector2Array(-211, -65, -118, -163, 8, -225, 140, -168, 211, -49, 198, 83, 133, 202, 3, 223, -135, 182, -203, 66)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D/StaticBody2D5"]
+radius = 405.04
+vertices = PackedVector2Array(9.615, 0, 0, 0, -22.135, 85.825)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(462, -382)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D6"]
+texture = ExtResource("1_8dtwd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D6"]
+polygon = PackedVector2Array(-211, -65, -118, -163, 8, -225, 140, -168, 211, -49, 198, 83, 133, 202, 3, 223, -135, 182, -203, 66)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D/StaticBody2D6"]
+radius = 405.04
+vertices = PackedVector2Array(9.615, 0, 0, 0, -22.135, 85.825)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(1503, -268)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D7"]
+texture = ExtResource("1_8dtwd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D7"]
+polygon = PackedVector2Array(-211, -65, -118, -163, 8, -225, 140, -168, 211, -49, 198, 83, 133, 202, 3, 223, -135, 182, -203, 66)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D/StaticBody2D7"]
+radius = 405.04
+vertices = PackedVector2Array(9.615, 0, 0, 0, -22.135, 85.825)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(2126, 587)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D8"]
+texture = ExtResource("1_8dtwd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D8"]
+polygon = PackedVector2Array(-211, -65, -118, -163, 8, -225, 140, -168, 211, -49, 198, 83, 133, 202, 3, 223, -135, 182, -203, 66)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D/StaticBody2D8"]
+radius = 405.04
+vertices = PackedVector2Array(9.615, 0, 0, 0, -22.135, 85.825)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="StaticBody2D9" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(1317, 1210)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D9"]
+texture = ExtResource("1_8dtwd")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D9"]
+polygon = PackedVector2Array(-211, -65, -118, -163, 8, -225, 140, -168, 211, -49, 198, 83, 133, 202, 3, 223, -135, 182, -203, 66)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D/StaticBody2D9"]
+radius = 405.04
+vertices = PackedVector2Array(9.615, 0, 0, 0, -22.135, 85.825)
+affect_navigation_mesh = true
+carve_navigation_mesh = true

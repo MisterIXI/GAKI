@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://gupcnoetcy17"]
+
+[ext_resource type="Texture2D" uid="uid://636iuo4rxi0t" path="res://assets/Ships/spaceShips_001.png" id="1_b2sa4"]
+
+[node name="PlayerShip" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="SpaceShips001" type="Sprite2D" parent="."]
+position = Vector2(149, 99)
+texture = ExtResource("1_b2sa4")
