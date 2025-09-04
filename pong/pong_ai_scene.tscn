@@ -1,12 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://cs58djt7nrl3x"]
+[gd_scene load_steps=16 format=3 uid="uid://1o2ppavie686"]
 
-[ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_o7i24"]
-[ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="1_oft38"]
-[ext_resource type="Script" uid="uid://7pcgf28qjtc" path="res://pong_ball.gd" id="1_r720o"]
-[ext_resource type="Script" uid="uid://b3oevhot6xvip" path="res://simple_ai.gd" id="5_o7i24"]
-[ext_resource type="Script" uid="uid://cv5x1114opjq6" path="res://predictive_ai.gd" id="6_5mdgq"]
-[ext_resource type="Script" uid="uid://dobc66kqo14x3" path="res://hitstop_shake.gd" id="6_rvcuf"]
-[ext_resource type="Script" uid="uid://dc6pcwdq18gu" path="res://rl_controller.gd" id="6_u1yvm"]
+[ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_igye7"]
+[ext_resource type="Script" uid="uid://7pcgf28qjtc" path="res://pong_ball.gd" id="2_un2au"]
+[ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="3_cyn71"]
+[ext_resource type="Script" uid="uid://cv5x1114opjq6" path="res://predictive_ai.gd" id="4_p6tn2"]
+[ext_resource type="Script" uid="uid://dc6pcwdq18gu" path="res://rl_controller.gd" id="5_ugafm"]
+[ext_resource type="Script" uid="uid://b3oevhot6xvip" path="res://simple_ai.gd" id="6_qmfeb"]
 
 [sub_resource type="Gradient" id="Gradient_1n30b"]
 offsets = PackedFloat32Array(0)
@@ -38,16 +37,12 @@ size = Vector2(20, 720)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
 size = Vector2(30, 720)
 
-[sub_resource type="Curve" id="Curve_5mdgq"]
-_data = [Vector2(0.33247423, 0), 0.0, 0.064022295, 0, 0, Vector2(1, 1), 4.3320313, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="Curve" id="Curve_u1yvm"]
 _data = [Vector2(0.5097276, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="PongScene" type="Node2D" node_paths=PackedStringArray("ball", "paddle_left", "paddle_right", "label_a", "label_b")]
-script = ExtResource("1_o7i24")
+script = ExtResource("1_igye7")
 ball = NodePath("PongBall")
 paddle_left = NodePath("PaddleA")
 paddle_right = NodePath("PaddleB")
@@ -62,7 +57,7 @@ metadata/_edit_lock_ = true
 [node name="PongBall" type="CharacterBody2D" parent="." groups=["ball"]]
 position = Vector2(640, 360)
 scale = Vector2(0.5, 0.5)
-script = ExtResource("1_r720o")
+script = ExtResource("2_un2au")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PongBall"]
@@ -71,7 +66,7 @@ shape = SubResource("RectangleShape2D_ktbx5")
 [node name="Sprite2D" type="Sprite2D" parent="PongBall"]
 texture = SubResource("GradientTexture2D_r720o")
 
-[node name="PaddleA" parent="." instance=ExtResource("1_oft38")]
+[node name="PaddleA" parent="." instance=ExtResource("3_cyn71")]
 position = Vector2(30, 360)
 speed = 1400.0
 
@@ -79,27 +74,27 @@ speed = 1400.0
 process_mode = 4
 top_level = true
 z_index = 1
-script = ExtResource("6_5mdgq")
+script = ExtResource("4_p6tn2")
 ball = NodePath("../../PongBall")
 detector_layer = 3
 
 [node name="RL_Controller" type="Node2D" parent="PaddleA"]
 position = Vector2(1220, 0)
-script = ExtResource("6_u1yvm")
+script = ExtResource("5_ugafm")
 
-[node name="PaddleB" parent="." instance=ExtResource("1_oft38")]
+[node name="PaddleB" parent="." instance=ExtResource("3_cyn71")]
 position = Vector2(1250, 360)
 speed = 1400.0
 
 [node name="PredictiveAI" type="Node2D" parent="PaddleB" node_paths=PackedStringArray("ball")]
 top_level = true
 z_index = 1
-script = ExtResource("6_5mdgq")
+script = ExtResource("4_p6tn2")
 ball = NodePath("../../PongBall")
 
 [node name="Node" type="Node" parent="PaddleB" node_paths=PackedStringArray("ball")]
 process_mode = 4
-script = ExtResource("5_o7i24")
+script = ExtResource("6_qmfeb")
 ball = NodePath("../../PongBall")
 
 [node name="ScoreA" type="Label" parent="."]
@@ -166,13 +161,6 @@ collision_mask = 0
 position = Vector2(1250, 360)
 shape = SubResource("RectangleShape2D_r720o")
 debug_color = Color(0, 0.4627451, 0.14509805, 0.41960785)
-
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("ball", "particle_system")]
-position = Vector2(640, 360)
-script = ExtResource("6_rvcuf")
-ball = NodePath("../PongBall")
-particle_system = NodePath("../CPUParticles2D")
-curve = SubResource("Curve_5mdgq")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2(448, 288)

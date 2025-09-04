@@ -64,7 +64,7 @@ func calc_new_target_y(start_pos: Vector2, start_dir: Vector2, prev_collider: No
 			# print(query.from, "; ", query.to, "; ", query.collision_mask)
 			var result = space_state.intersect_ray(query)
 			if result.is_empty():
-				push_error("Raycast did not hit anything. Aborting...")
+				# push_error("Raycast did not hit anything. Aborting...")
 				return
 			if result["collider"].is_in_group("detectors"):
 				is_finished = true

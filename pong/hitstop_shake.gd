@@ -7,7 +7,7 @@ extends Camera2D
 var constant_shake: float = 0.0
 
 func _ready():
-	ball.ball_collision.connect(_on_ball_collision)
+	# ball.ball_collision.connect(_on_ball_collision)
 	pass
 
 
