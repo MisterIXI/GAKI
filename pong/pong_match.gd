@@ -28,7 +28,7 @@ func _on_goal_right_body_entered(body: Node2D) -> void:
 
 
 func reset_ball(towards_left: bool = true) -> void:
-	ball.global_position = Vector2(1280.0/2.0, 720.0/2.0) + Vector2.UP * (randf() - 0.5) * 100
+	ball.position = Vector2(1280.0/2.0, 720.0/2.0) + Vector2.UP * (randf() - 0.5) * 100
 	ball.velocity = Vector2.ZERO
 	await get_tree().create_timer(1.0).timeout
 	if towards_left:

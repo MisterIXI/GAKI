@@ -69,6 +69,7 @@ func calc_new_target_y(start_pos: Vector2, start_dir: Vector2, prev_collider: No
 			if result["collider"].is_in_group("detectors"):
 				is_finished = true
 				target_y = result["position"].y
+				target_y = paddle.get_parent().to_local(Vector2(0, target_y)).y
 				raycast_path.append(result["position"])
 				target_y += (randf() - 0.5) * 40 # Add some randomness to the target Y position
 				# print("target_y set to: ", target_y)
