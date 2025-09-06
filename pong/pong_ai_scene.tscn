@@ -29,10 +29,10 @@ width = 40
 height = 40
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7oiv"]
-size = Vector2(1280, 20)
+size = Vector2(1280, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rvcuf"]
-size = Vector2(20, 720)
+size = Vector2(100, 820)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
 size = Vector2(30, 720)
@@ -78,9 +78,10 @@ script = ExtResource("4_p6tn2")
 ball = NodePath("../../PongBall")
 detector_layer = 3
 
-[node name="RL_Controller" type="Node2D" parent="PaddleA"]
+[node name="RL_Controller" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("other_predictive")]
 position = Vector2(1220, 0)
 script = ExtResource("5_ugafm")
+other_predictive = NodePath("../../PaddleB/PredictiveAI")
 
 [node name="PaddleB" parent="." instance=ExtResource("3_cyn71")]
 position = Vector2(1250, 360)
@@ -118,14 +119,14 @@ visible_characters_behavior = 4
 collision_layer = 7
 
 [node name="TopWall" type="CollisionShape2D" parent="TopWall"]
-position = Vector2(640, -10)
+position = Vector2(640, -50)
 shape = SubResource("RectangleShape2D_k7oiv")
 
 [node name="BottomWall" type="StaticBody2D" parent="."]
 collision_layer = 7
 
 [node name="BottomWall" type="CollisionShape2D" parent="BottomWall"]
-position = Vector2(640, 730)
+position = Vector2(640, 770)
 shape = SubResource("RectangleShape2D_k7oiv")
 
 [node name="GoalLeft" type="Area2D" parent="."]
@@ -133,6 +134,7 @@ position = Vector2(-10, 360)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalLeft"]
+position = Vector2(-40, 0)
 shape = SubResource("RectangleShape2D_rvcuf")
 debug_color = Color(1, 0.1882353, 0.14509805, 0.41960785)
 
@@ -141,6 +143,7 @@ position = Vector2(1290, 360)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalRight"]
+position = Vector2(40, 0)
 shape = SubResource("RectangleShape2D_rvcuf")
 debug_color = Color(1, 0.1882353, 0.14509805, 0.41960785)
 
@@ -175,6 +178,8 @@ initial_velocity_max = 572.03
 scale_amount_min = 0.0
 scale_amount_max = 5.0
 scale_amount_curve = SubResource("Curve_u1yvm")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
 
 [connection signal="kickoff" from="." to="PaddleA/PredictiveAI" method="_on_kickoff"]
 [connection signal="kickoff" from="." to="PaddleB/PredictiveAI" method="_on_kickoff"]

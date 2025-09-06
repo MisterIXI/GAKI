@@ -1,8 +1,10 @@
+class_name PredictiveAI
 extends Node2D
 
 @export var ball: PongBall
 @export var detector_layer: int = 0b100
 @onready var paddle: Paddle = get_parent()
+signal target_predicted(target_height:float)
 
 var target_y: float = 720.0 / 2.0  # Default to center of the screen
 var raycast_path: Array = []
@@ -70,6 +72,7 @@ func calc_new_target_y(start_pos: Vector2, start_dir: Vector2, prev_collider: No
 				is_finished = true
 				target_y = result["position"].y
 				target_y = paddle.get_parent().to_local(Vector2(0, target_y)).y
+				target_predicted.emit(result["position"].y)
 				raycast_path.append(result["position"])
 				target_y += (randf() - 0.5) * 40 # Add some randomness to the target Y position
 				# print("target_y set to: ", target_y)

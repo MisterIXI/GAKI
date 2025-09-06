@@ -3,6 +3,7 @@ class_name TBPushAIController
 @onready var paddle: Paddle = get_parent()
 @onready var pong_match: PongMatch = get_parent().get_parent()
 @export var is_on_left_side: bool = true
+@export var other_predictive: PredictiveAI
 var side_mult: int = 1
 var is_success: bool = false
 
@@ -24,16 +25,56 @@ func _ready():
 		side_mult = -1
 	pong_match.goal.connect(on_goal)
 	pong_match.ball.ball_collision.connect(on_ball_collision)
+	other_predictive.target_predicted.connect(reward_on_cornering)
+
+func reward_on_cornering(target_y: float): ## local_ball_pos_and_wall_dist_fixed_corner_reward
+	var local_y = paddle.to_local(Vector2(0, target_y)).y
+	reward += max(0, max(
+		5 - (local_y * 15 / 720.0),
+		5 - ((720 - local_y) * 15 / 720)
+		))
+
 
 func get_obs() -> Dictionary:
-	var obs = [
-		pong_match.ball.position.x * side_mult / 1280.0,
-		pong_match.ball.position.y / 720.0,
+	var obs = [ ## local_ball_pos
+		paddle.to_local(pong_match.ball.global_position).x * side_mult / 1280.0,
+		paddle.to_local(pong_match.ball.global_position).y / 720.0,
 		pong_match.ball.velocity.x * side_mult / 1280.0,
 		pong_match.ball.velocity.y / 720.0,
 		paddle.position.y / 720.0,
-		pong_match.paddle_right.position.y / 720.0 if is_on_left_side else pong_match.paddle_left.position.y / 720.0
 	]
+	# var obs = [ ## local_ball_pos_and_wall_dist
+	# 	paddle.to_local(pong_match.ball.global_position).x * side_mult / 1280.0,
+	# 	paddle.to_local(pong_match.ball.global_position).y / 720.0,
+	# 	pong_match.ball.velocity.x * side_mult / 1280.0,
+	# 	pong_match.ball.velocity.y / 720.0,
+	# 	min(abs(720-pong_match.ball.position.y), pong_match.ball.position.y),
+	# 	paddle.position.y / 720.0,
+	# ]
+	# var obs = [ ## local_ball_pos_and_wall_dist_fixed && local_ball_pos_and_wall_dist_fixed_corner_reward
+	# 	paddle.to_local(pong_match.ball.global_position).x * side_mult / 1280.0,
+	# 	paddle.to_local(pong_match.ball.global_position).y / 720.0,
+	# 	pong_match.ball.velocity.x * side_mult / 1280.0,
+	# 	pong_match.ball.velocity.y / 720.0,
+	# 	pong_match.ball.position.y /720.0, # distance to top wall
+	# 	(720 - pong_match.ball.position.y) / 720.0, # distance to bottom wall
+	# 	paddle.position.y / 720.0,
+	# ]
+	# var obs = [ ## pong_ai_with_vel
+	# 	pong_match.ball.position.x * side_mult / 1280.0,
+	# 	pong_match.ball.position.y / 720.0,
+	# 	pong_match.ball.velocity.x * side_mult / 1280.0,
+	# 	pong_match.ball.velocity.y / 720.0,
+	# 	paddle.position.y / 720.0,
+	# ]
+	# var obs = [ ## pong_ai_with_enemy_pos
+	# 	pong_match.ball.position.x * side_mult / 1280.0,
+	# 	pong_match.ball.position.y / 720.0,
+	# 	pong_match.ball.velocity.x * side_mult / 1280.0,
+	# 	pong_match.ball.velocity.y / 720.0,
+	# 	paddle.position.y / 720.0,
+	# 	pong_match.paddle_right.position.y / 720.0 if is_on_left_side else pong_match.paddle_left.position.y / 720.0
+	# ]
 	return {"obs": obs}
 
 
@@ -86,7 +127,7 @@ func on_goal(goal_on_left_side: bool) -> void:
 	done = true
 	needs_reset = true
 
-func on_ball_collision(collision: KinematicCollision2D) -> void:
+func on_ball_collision(node: Node) -> void:
 	# when succesfully bouncing ball, get reward
-	if collision.get_collider() == paddle:
+	if node == paddle:
 		reward += 1
