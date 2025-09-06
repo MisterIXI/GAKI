@@ -1,0 +1,189 @@
+[gd_scene load_steps=16 format=3 uid="uid://1o2ppavie686"]
+
+[ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_igye7"]
+[ext_resource type="Script" uid="uid://7pcgf28qjtc" path="res://pong_ball.gd" id="2_un2au"]
+[ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="3_cyn71"]
+[ext_resource type="Script" uid="uid://cv5x1114opjq6" path="res://predictive_ai.gd" id="4_p6tn2"]
+[ext_resource type="Script" uid="uid://dc6pcwdq18gu" path="res://rl_controller.gd" id="5_ugafm"]
+[ext_resource type="Script" uid="uid://b3oevhot6xvip" path="res://simple_ai.gd" id="6_qmfeb"]
+
+[sub_resource type="Gradient" id="Gradient_1n30b"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oft38"]
+gradient = SubResource("Gradient_1n30b")
+width = 1580
+height = 1020
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktbx5"]
+size = Vector2(40, 40)
+
+[sub_resource type="Gradient" id="Gradient_k7oiv"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r720o"]
+gradient = SubResource("Gradient_k7oiv")
+width = 40
+height = 40
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k7oiv"]
+size = Vector2(1280, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvcuf"]
+size = Vector2(100, 820)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
+size = Vector2(30, 720)
+
+[sub_resource type="Curve" id="Curve_u1yvm"]
+_data = [Vector2(0.5097276, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="PongScene" type="Node2D" node_paths=PackedStringArray("ball", "paddle_left", "paddle_right", "label_a", "label_b")]
+script = ExtResource("1_igye7")
+ball = NodePath("PongBall")
+paddle_left = NodePath("PaddleA")
+paddle_right = NodePath("PaddleB")
+label_a = NodePath("ScoreA")
+label_b = NodePath("ScoreB")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = SubResource("GradientTexture2D_oft38")
+metadata/_edit_lock_ = true
+
+[node name="PongBall" type="CharacterBody2D" parent="." groups=["ball"]]
+position = Vector2(640, 360)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("2_un2au")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PongBall"]
+shape = SubResource("RectangleShape2D_ktbx5")
+
+[node name="Sprite2D" type="Sprite2D" parent="PongBall"]
+texture = SubResource("GradientTexture2D_r720o")
+
+[node name="PaddleA" parent="." instance=ExtResource("3_cyn71")]
+position = Vector2(30, 360)
+speed = 1400.0
+
+[node name="PredictiveAI" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("ball")]
+process_mode = 4
+top_level = true
+z_index = 1
+script = ExtResource("4_p6tn2")
+ball = NodePath("../../PongBall")
+detector_layer = 3
+
+[node name="RL_Controller" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("other_predictive")]
+position = Vector2(1220, 0)
+script = ExtResource("5_ugafm")
+other_predictive = NodePath("../../PaddleB/PredictiveAI")
+
+[node name="PaddleB" parent="." instance=ExtResource("3_cyn71")]
+position = Vector2(1250, 360)
+speed = 1400.0
+
+[node name="PredictiveAI" type="Node2D" parent="PaddleB" node_paths=PackedStringArray("ball")]
+top_level = true
+z_index = 1
+script = ExtResource("4_p6tn2")
+ball = NodePath("../../PongBall")
+
+[node name="Node" type="Node" parent="PaddleB" node_paths=PackedStringArray("ball")]
+process_mode = 4
+script = ExtResource("6_qmfeb")
+ball = NodePath("../../PongBall")
+
+[node name="ScoreA" type="Label" parent="."]
+offset_left = 160.0
+offset_top = 60.0
+offset_right = 287.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 111
+text = "00"
+
+[node name="ScoreB" type="Label" parent="."]
+offset_left = 993.0
+offset_top = 60.0
+offset_right = 1120.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 111
+text = "00"
+visible_characters_behavior = 4
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+collision_layer = 7
+
+[node name="TopWall" type="CollisionShape2D" parent="TopWall"]
+position = Vector2(640, -50)
+shape = SubResource("RectangleShape2D_k7oiv")
+
+[node name="BottomWall" type="StaticBody2D" parent="."]
+collision_layer = 7
+
+[node name="BottomWall" type="CollisionShape2D" parent="BottomWall"]
+position = Vector2(640, 770)
+shape = SubResource("RectangleShape2D_k7oiv")
+
+[node name="GoalLeft" type="Area2D" parent="."]
+position = Vector2(-10, 360)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalLeft"]
+position = Vector2(-40, 0)
+shape = SubResource("RectangleShape2D_rvcuf")
+debug_color = Color(1, 0.1882353, 0.14509805, 0.41960785)
+
+[node name="GoalRight" type="Area2D" parent="."]
+position = Vector2(1290, 360)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalRight"]
+position = Vector2(40, 0)
+shape = SubResource("RectangleShape2D_rvcuf")
+debug_color = Color(1, 0.1882353, 0.14509805, 0.41960785)
+
+[node name="PaddleDetectionWalls" type="StaticBody2D" parent="." groups=["detectors"]]
+collision_layer = 2
+collision_mask = 0
+
+[node name="DetectionLeft" type="CollisionShape2D" parent="PaddleDetectionWalls"]
+position = Vector2(30, 360)
+shape = SubResource("RectangleShape2D_r720o")
+debug_color = Color(0, 0.4627451, 0.14509805, 0.41960785)
+
+[node name="PaddleDetectionWalls2" type="StaticBody2D" parent="." groups=["detectors"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="DetectionRight" type="CollisionShape2D" parent="PaddleDetectionWalls2"]
+position = Vector2(1250, 360)
+shape = SubResource("RectangleShape2D_r720o")
+debug_color = Color(0, 0.4627451, 0.14509805, 0.41960785)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(448, 288)
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+spread = 90.0
+initial_velocity_min = 214.29
+initial_velocity_max = 572.03
+scale_amount_min = 0.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_u1yvm")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[connection signal="kickoff" from="." to="PaddleA/PredictiveAI" method="_on_kickoff"]
+[connection signal="kickoff" from="." to="PaddleB/PredictiveAI" method="_on_kickoff"]
+[connection signal="ball_collision" from="PongBall" to="PaddleA/PredictiveAI" method="_on_ball_collision"]
+[connection signal="ball_collision" from="PongBall" to="PaddleB/PredictiveAI" method="_on_ball_collision"]
+[connection signal="body_entered" from="GoalLeft" to="." method="_on_goal_left_body_entered"]
+[connection signal="body_entered" from="GoalRight" to="." method="_on_goal_right_body_entered"]

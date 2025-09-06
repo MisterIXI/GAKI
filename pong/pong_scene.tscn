@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://cs58djt7nrl3x"]
+[gd_scene load_steps=18 format=3 uid="uid://cs58djt7nrl3x"]
 
 [ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_o7i24"]
 [ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="1_oft38"]
 [ext_resource type="Script" uid="uid://7pcgf28qjtc" path="res://pong_ball.gd" id="1_r720o"]
 [ext_resource type="Script" uid="uid://b3oevhot6xvip" path="res://simple_ai.gd" id="5_o7i24"]
 [ext_resource type="Script" uid="uid://cv5x1114opjq6" path="res://predictive_ai.gd" id="6_5mdgq"]
+[ext_resource type="Script" uid="uid://dobc66kqo14x3" path="res://hitstop_shake.gd" id="6_rvcuf"]
+[ext_resource type="Script" uid="uid://dc6pcwdq18gu" path="res://rl_controller.gd" id="6_u1yvm"]
 
 [sub_resource type="Gradient" id="Gradient_1n30b"]
 offsets = PackedFloat32Array(0)
@@ -12,8 +14,8 @@ colors = PackedColorArray(0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_oft38"]
 gradient = SubResource("Gradient_1n30b")
-width = 1280
-height = 720
+width = 1580
+height = 1020
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ktbx5"]
 size = Vector2(40, 40)
@@ -36,9 +38,19 @@ size = Vector2(20, 720)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
 size = Vector2(30, 720)
 
-[node name="PongScene" type="Node2D" node_paths=PackedStringArray("ball", "label_a", "label_b")]
+[sub_resource type="Curve" id="Curve_5mdgq"]
+_data = [Vector2(0.33247423, 0), 0.0, 0.064022295, 0, 0, Vector2(1, 1), 4.3320313, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_u1yvm"]
+_data = [Vector2(0.5097276, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="PongScene" type="Node2D" node_paths=PackedStringArray("ball", "paddle_left", "paddle_right", "label_a", "label_b")]
 script = ExtResource("1_o7i24")
 ball = NodePath("PongBall")
+paddle_left = NodePath("PaddleA")
+paddle_right = NodePath("PaddleB")
 label_a = NodePath("ScoreA")
 label_b = NodePath("ScoreB")
 
@@ -64,25 +76,29 @@ position = Vector2(30, 360)
 speed = 1400.0
 
 [node name="PredictiveAI" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("ball")]
+process_mode = 4
 top_level = true
 z_index = 1
 script = ExtResource("6_5mdgq")
 ball = NodePath("../../PongBall")
 detector_layer = 3
 
+[node name="RL_Controller" type="Node2D" parent="PaddleA"]
+position = Vector2(1220, 0)
+script = ExtResource("6_u1yvm")
+
 [node name="PaddleB" parent="." instance=ExtResource("1_oft38")]
 position = Vector2(1250, 360)
 speed = 1400.0
 
 [node name="PredictiveAI" type="Node2D" parent="PaddleB" node_paths=PackedStringArray("ball")]
-process_mode = 4
-visible = false
 top_level = true
 z_index = 1
 script = ExtResource("6_5mdgq")
 ball = NodePath("../../PongBall")
 
 [node name="Node" type="Node" parent="PaddleB" node_paths=PackedStringArray("ball")]
+process_mode = 4
 script = ExtResource("5_o7i24")
 ball = NodePath("../../PongBall")
 
@@ -151,9 +167,30 @@ position = Vector2(1250, 360)
 shape = SubResource("RectangleShape2D_r720o")
 debug_color = Color(0, 0.4627451, 0.14509805, 0.41960785)
 
-[connection signal="kickoff" from="." to="PaddleB/PredictiveAI" method="_on_kickoff"]
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("ball", "particle_system")]
+position = Vector2(640, 360)
+script = ExtResource("6_rvcuf")
+ball = NodePath("../PongBall")
+particle_system = NodePath("../CPUParticles2D")
+curve = SubResource("Curve_5mdgq")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(448, 288)
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+spread = 90.0
+initial_velocity_min = 214.29
+initial_velocity_max = 572.03
+scale_amount_min = 0.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_u1yvm")
+
 [connection signal="kickoff" from="." to="PaddleA/PredictiveAI" method="_on_kickoff"]
-[connection signal="ball_collision" from="PongBall" to="PaddleB/PredictiveAI" method="_on_ball_collision"]
+[connection signal="kickoff" from="." to="PaddleB/PredictiveAI" method="_on_kickoff"]
 [connection signal="ball_collision" from="PongBall" to="PaddleA/PredictiveAI" method="_on_ball_collision"]
+[connection signal="ball_collision" from="PongBall" to="PaddleB/PredictiveAI" method="_on_ball_collision"]
 [connection signal="body_entered" from="GoalLeft" to="." method="_on_goal_left_body_entered"]
 [connection signal="body_entered" from="GoalRight" to="." method="_on_goal_right_body_entered"]

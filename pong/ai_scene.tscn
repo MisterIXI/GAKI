@@ -1,0 +1,165 @@
+[gd_scene load_steps=4 format=3 uid="uid://20pa7aa11q08"]
+
+[ext_resource type="PackedScene" uid="uid://1o2ppavie686" path="res://pong_ai_scene.tscn" id="1_303ft"]
+[ext_resource type="Script" uid="uid://de1axev1862qq" path="res://addons/godot_rl_agents/sync.gd" id="3_303ft"]
+
+[sub_resource type="GDScript" id="GDScript_os1uh"]
+resource_name = "spread_tool"
+script/source = "@tool
+extends Node2D
+
+@export_tool_button(\"Generate_nodes\", \"Reload\") var generate_nodes_button = generate_nodes
+@export var scene_count: Vector2i = Vector2i(8,5)
+@export var scene_distance: Vector2 = Vector2(1500,1000)
+@export var scene_file: PackedScene
+@onready var scene_root: Node2D = get_node(\"SceneRoot\")
+
+func generate_nodes() -> void:
+	if scene_root != null:
+		scene_root.queue_free()
+		
+	scene_root = Node2D.new()
+	scene_root.set_deferred(\"name\", \"SceneRoot\")
+	add_child(scene_root)
+	scene_root.owner = get_tree().edited_scene_root
+	for x in range(scene_count.x):
+		for y in range(scene_count.y):
+			var new_scene = scene_file.instantiate()
+			scene_root.add_child(new_scene)
+			new_scene.owner = get_tree().edited_scene_root
+			new_scene.position = Vector2(x * scene_distance.x, y * scene_distance.y)
+			new_scene.set_deferred(\"name\", \"%d_%d_PongScene\" % [x+1,y+1])
+"
+
+[node name="AI_Scene" type="Node2D"]
+script = SubResource("GDScript_os1uh")
+scene_file = ExtResource("1_303ft")
+
+[node name="SceneRoot" type="Node2D" parent="."]
+
+[node name="1_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+
+[node name="1_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(0, 1000)
+
+[node name="1_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(0, 2000)
+
+[node name="1_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(0, 3000)
+
+[node name="1_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(0, 4000)
+
+[node name="2_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(1500, 0)
+
+[node name="2_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(1500, 1000)
+
+[node name="2_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(1500, 2000)
+
+[node name="2_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(1500, 3000)
+
+[node name="2_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(1500, 4000)
+
+[node name="3_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(3000, 0)
+
+[node name="3_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(3000, 1000)
+
+[node name="3_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(3000, 2000)
+
+[node name="3_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(3000, 3000)
+
+[node name="3_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(3000, 4000)
+
+[node name="4_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(4500, 0)
+
+[node name="4_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(4500, 1000)
+
+[node name="4_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(4500, 2000)
+
+[node name="4_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(4500, 3000)
+
+[node name="4_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(4500, 4000)
+
+[node name="5_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(6000, 0)
+
+[node name="5_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(6000, 1000)
+
+[node name="5_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(6000, 2000)
+
+[node name="5_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(6000, 3000)
+
+[node name="5_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(6000, 4000)
+
+[node name="6_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(7500, 0)
+
+[node name="6_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(7500, 1000)
+
+[node name="6_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(7500, 2000)
+
+[node name="6_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(7500, 3000)
+
+[node name="6_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(7500, 4000)
+
+[node name="7_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(9000, 0)
+
+[node name="7_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(9000, 1000)
+
+[node name="7_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(9000, 2000)
+
+[node name="7_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(9000, 3000)
+
+[node name="7_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(9000, 4000)
+
+[node name="8_1_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(10500, 0)
+
+[node name="8_2_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(10500, 1000)
+
+[node name="8_3_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(10500, 2000)
+
+[node name="8_4_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(10500, 3000)
+
+[node name="8_5_PongScene" parent="SceneRoot" instance=ExtResource("1_303ft")]
+position = Vector2(10500, 4000)
+
+[node name="Sync" type="Node" parent="."]
+script = ExtResource("3_303ft")
+metadata/_custom_type_script = "uid://de1axev1862qq"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(4414, 2402)
+zoom = Vector2(0.22, 0.22)
