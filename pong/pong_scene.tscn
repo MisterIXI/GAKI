@@ -33,7 +33,7 @@ height = 40
 size = Vector2(1280, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rvcuf"]
-size = Vector2(20, 720)
+size = Vector2(20, 760)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r720o"]
 size = Vector2(30, 720)
@@ -76,16 +76,18 @@ position = Vector2(30, 360)
 speed = 1400.0
 
 [node name="PredictiveAI" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("ball")]
-process_mode = 4
+process_mode = 3
 top_level = true
 z_index = 1
 script = ExtResource("6_5mdgq")
 ball = NodePath("../../PongBall")
 detector_layer = 3
 
-[node name="RL_Controller" type="Node2D" parent="PaddleA"]
+[node name="RL_Controller" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("other_predictive")]
+process_mode = 4
 position = Vector2(1220, 0)
 script = ExtResource("6_u1yvm")
+other_predictive = NodePath("../../PaddleB/PredictiveAI")
 
 [node name="PaddleB" parent="." instance=ExtResource("1_oft38")]
 position = Vector2(1250, 360)
