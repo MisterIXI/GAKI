@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://c5jydllpdj4wl"]
 
-[ext_resource type="Texture2D" uid="uid://dnmk0drexyse8" path="res://assets/Meteors/spaceMeteors_001.png" id="1_8dtwd"]
+[ext_resource type="Texture2D" uid="uid://dnmk0drexyse8" path="res://assets/kenney/Meteors/spaceMeteors_001.png" id="1_8dtwd"]
 [ext_resource type="Script" uid="uid://clo3giwumhtks" path="res://scenes/character/test_ship.gd" id="2_d2t3o"]
-[ext_resource type="Texture2D" uid="uid://636iuo4rxi0t" path="res://assets/Ships/spaceShips_001.png" id="2_wvjab"]
+[ext_resource type="Texture2D" uid="uid://636iuo4rxi0t" path="res://assets/kenney/Ships/spaceShips_001.png" id="2_wvjab"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d2t3o"]
 size = Vector2(130, 187)
