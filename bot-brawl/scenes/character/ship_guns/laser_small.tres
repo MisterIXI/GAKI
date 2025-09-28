@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProjectileSetting" load_steps=3 format=3 uid="uid://bqvvws0amx72v"]
+
+[ext_resource type="PackedScene" uid="uid://bwwqq5n0s2p3o" path="res://scenes/character/ship_guns/laser_shot.tscn" id="1_t5jvf"]
+[ext_resource type="Script" uid="uid://blf4kd727gb8y" path="res://scenes/character/ship_guns/projectile_setting.gd" id="1_tkanj"]
+
+[resource]
+script = ExtResource("1_tkanj")
+projectile_scene = ExtResource("1_t5jvf")
+is_missile = true
+is_laser = true
+metadata/_custom_type_script = "uid://blf4kd727gb8y"

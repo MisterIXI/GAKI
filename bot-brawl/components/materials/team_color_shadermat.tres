@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://esfb4bb70285"]
+
+[ext_resource type="Shader" uid="uid://mpmdvjfeehvo" path="res://components/shaders/team_color_shader.gdshader" id="1_csqo3"]
+
+[resource]
+shader = ExtResource("1_csqo3")
+shader_parameter/target_color = Color(0.88, 0.19638665, 0.18479998, 1)

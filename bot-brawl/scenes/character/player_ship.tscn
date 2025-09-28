@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://gupcnoetcy17"]
 
-[ext_resource type="Texture2D" uid="uid://636iuo4rxi0t" path="res://assets/Ships/spaceShips_001.png" id="1_b2sa4"]
+[ext_resource type="Texture2D" uid="uid://636iuo4rxi0t" path="res://assets/kenney/Ships/spaceShips_001.png" id="1_b2sa4"]
 
 [node name="PlayerShip" type="RigidBody2D"]
 

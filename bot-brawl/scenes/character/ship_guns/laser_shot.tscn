@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwwqq5n0s2p3o"]
+
+[ext_resource type="Script" uid="uid://cn55tyrs0utck" path="res://scenes/character/ship_guns/laser_shot.gd" id="1_j164j"]
+[ext_resource type="Material" uid="uid://esfb4bb70285" path="res://components/materials/team_color_shadermat.tres" id="2_jc0nk"]
+[ext_resource type="Texture2D" uid="uid://cv7m0bunwipu2" path="res://assets/kenney/Lasers/laserRed04.png" id="3_ublpf"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fn6s"]
+radius = 3.0
+height = 16.0
+
+[node name="LaserShot" type="Area2D" node_paths=PackedStringArray("ray")]
+rotation = -1.5707964
+script = ExtResource("1_j164j")
+ray = NodePath("TestRay")
+metadata/_edit_group_ = true
+
+[node name="LaserRed04" type="Sprite2D" parent="."]
+material = ExtResource("2_jc0nk")
+rotation = 1.5707964
+scale = Vector2(0.4387738, 0.4387738)
+texture = ExtResource("3_ublpf")
+
+[node name="TestRay" type="RayCast2D" parent="."]
+target_position = Vector2(30, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_0fn6s")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

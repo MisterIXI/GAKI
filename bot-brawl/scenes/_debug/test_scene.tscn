@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://cxno1s6ere1xe"]
+
+[ext_resource type="Texture2D" uid="uid://7uy70k68fklk" path="res://assets/kenney/Backgrounds/darkPurple.png" id="2_vocty"]
+[ext_resource type="Material" uid="uid://esfb4bb70285" path="res://components/materials/team_color_shadermat.tres" id="3_ewa7l"]
+[ext_resource type="Script" uid="uid://8agkr2g1ecse" path="res://scenes/character/player_ship.gd" id="3_vocty"]
+[ext_resource type="Texture2D" uid="uid://li8obdodi5t8" path="res://assets/kenney/Ships/spaceShips_005.png" id="3_yqfxt"]
+[ext_resource type="Texture2D" uid="uid://bxxj08emg131p" path="res://assets/kenney/Effects/fire14.png" id="5_bwj3x"]
+[ext_resource type="Script" uid="uid://c4y6tl7gdvpr3" path="res://scenes/character/fire_anim.gd" id="6_b3upp"]
+[ext_resource type="Script" uid="uid://cpmf482eknmgc" path="res://scenes/character/manual_control.gd" id="7_mknim"]
+[ext_resource type="Script" uid="uid://kxr4ku6hxpc6" path="res://scenes/character/ship_gun.gd" id="8_b3upp"]
+[ext_resource type="Script" uid="uid://bmlavmqy0uo0t" path="res://components/health_component.gd" id="9_0fn6s"]
+[ext_resource type="Resource" uid="uid://bqvvws0amx72v" path="res://scenes/character/ship_guns/laser_small.tres" id="9_l88sq"]
+[ext_resource type="Script" uid="uid://cu5caq84yrr6q" path="res://components/energy_component.gd" id="11_0fn6s"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(360, 360)
+repeat_times = 17
+
+[node name="DarkPurple" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(640, 360)
+scale = Vector2(2, 2)
+texture = ExtResource("2_vocty")
+
+[node name="Player" type="RigidBody2D" parent="."]
+linear_damp = 1.0
+script = ExtResource("3_vocty")
+
+[node name="SpaceShips005" type="Sprite2D" parent="Player"]
+material = ExtResource("3_ewa7l")
+rotation = 3.1415927
+scale = Vector2(0.34, 0.34)
+texture = ExtResource("3_yqfxt")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
+visible = false
+rotation = -3.1415925
+scale = Vector2(0.34, 0.34)
+polygon = PackedVector2Array(-106.9, -150.5, -133.3, -150.5, -142, -142.7, -142, -137.8, -120, -63.800003, -132, -40.699997, -132, -36.199997, -101.5, -9.600006, -106, -3.100006, -106, 20, -171, 73.7, -171, 150.5, -114, 150.5, -74.7, 104.5, -70.58821, 76.47059, -38.235283, 58.823532, -24.899994, 56.5, 26.300003, 56.5, 35.29412, 55.882343, 70.588234, 73.529396, 72.7, 103.3, 115.20001, 150.5, 166.70001, 150.5, 171, 143, 171, 72.899994, 105.600006, 19, 102.100006, -7.699997, 128, -33.5, 135.6, -33.5, 119, -63, 119, -63.800003, 139.70001, -133.5, 142.79999, -138.7, 137, -147.9, 137, -150.3, 105.100006, -150.5, 90.399994, -125.4, 60.800003, -124.5, 55.5, -124.5, 43, -108.2, 43, -65, 26.600006, -53.199997, 19, -66, 19, -70.7, -14.199997, -69.5, -20.399994, -69.5, -27.300003, -52.300003, -43, -65.7, -43, -108.4, -50, -116.5, -50, -119.2, -59.5, -125.5, -91.3, -125.5)
+
+[node name="FireLeft" type="Sprite2D" parent="Player"]
+modulate = Color(0.98039216, 0.98039216, 0.98039216, 1)
+position = Vector2(-28, 55)
+texture = ExtResource("5_bwj3x")
+script = ExtResource("6_b3upp")
+
+[node name="FireRight" type="Sprite2D" parent="Player"]
+modulate = Color(0.98039216, 0.98039216, 0.98039216, 1)
+position = Vector2(28, 55)
+texture = ExtResource("5_bwj3x")
+script = ExtResource("6_b3upp")
+
+[node name="ManualControl" type="Node" parent="Player"]
+script = ExtResource("7_mknim")
+
+[node name="ShipGunLeft" type="Node2D" parent="Player" groups=["has_health"]]
+position = Vector2(-19, -35)
+rotation = -1.5707964
+script = ExtResource("8_b3upp")
+loaded_projectile = ExtResource("9_l88sq")
+available_projectiles = null
+
+[node name="ShipGunRight" type="Node2D" parent="Player" groups=["has_health"]]
+position = Vector2(19, -35)
+rotation = -1.5707964
+script = ExtResource("8_b3upp")
+loaded_projectile = ExtResource("9_l88sq")
+available_projectiles = null
+
+[node name="HealthComponent" type="Node2D" parent="Player"]
+script = ExtResource("9_0fn6s")
+
+[node name="EnergyComponent" type="Node2D" parent="Player"]
+script = ExtResource("11_0fn6s")
