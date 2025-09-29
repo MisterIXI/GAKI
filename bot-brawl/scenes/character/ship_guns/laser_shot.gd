@@ -4,7 +4,12 @@ extends Area2D
 
 var settings: ProjectileSetting
 @export var ray: RayCast2D
+var lifetime: float
+var base_velocity: Vector2
 
+func init_laser(projectile_settings: ProjectileSetting, initial_velocity: Vector2 = Vector2.ZERO):
+	settings = projectile_settings
+	base_velocity = initial_velocity
 
 func _ready():
 	if settings == null:
@@ -13,8 +18,13 @@ func _ready():
 		settings = ProjectileSetting.new()
 		return
 	ray.target_position = Vector2.RIGHT * settings.laser_velocity
+	lifetime = settings.laser_lifetime
 
 func _physics_process(delta):
+	lifetime -= delta
+	if lifetime <= 0:
+		queue_free()
+		return
 	# move laser by laser_velocity/seconds
 	position += transform.x.normalized() * settings.laser_velocity * delta
 

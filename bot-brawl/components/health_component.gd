@@ -16,10 +16,11 @@ func _ready():
 	health_changed.connect(on_health_changed)
 	health_zero.connect(on_health_zero)
 	get_parent().add_to_group("has_health")
-	get_parent().set_meta("health_path", name)
+	get_parent().set_meta("health_path", get_path())
 
 func on_health_zero():
 	was_zero = true
+	print("ded")
 
 func on_health_changed():
 	if health >= 0 and was_zero:

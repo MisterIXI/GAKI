@@ -64,14 +64,12 @@ position = Vector2(-19, -35)
 rotation = -1.5707964
 script = ExtResource("8_b3upp")
 loaded_projectile = ExtResource("9_l88sq")
-available_projectiles = null
 
 [node name="ShipGunRight" type="Node2D" parent="Player" groups=["has_health"]]
 position = Vector2(19, -35)
 rotation = -1.5707964
 script = ExtResource("8_b3upp")
 loaded_projectile = ExtResource("9_l88sq")
-available_projectiles = null
 
 [node name="HealthComponent" type="Node2D" parent="Player"]
 script = ExtResource("9_0fn6s")

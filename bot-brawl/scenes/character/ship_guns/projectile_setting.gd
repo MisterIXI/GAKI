@@ -22,3 +22,4 @@ extends Resource
 @export var laser_velocity: float = 50
 @export var laser_damage: float = 10
 @export var laser_energy_cost: float = 5
+@export var laser_lifetime: float = 3.0
