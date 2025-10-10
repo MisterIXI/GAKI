@@ -9,5 +9,5 @@ extends Node2D
 
 signal current_energy_changed(new_value: float)
 func _ready():
-	get_parent().set_meta("energy_path", name)
+	get_parent().set_meta("energy_path", get_path())
 
