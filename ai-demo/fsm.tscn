@@ -1,0 +1,124 @@
+[gd_scene load_steps=6 format=3 uid="uid://n073t6jlr1up"]
+
+[ext_resource type="Texture2D" uid="uid://bjgm44g8usxfi" path="res://icon.svg" id="1_ckgc8"]
+
+[sub_resource type="GDScript" id="GDScript_owlxk"]
+resource_name = "Player"
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+
+func _physics_process(_delta: float) -> void:
+	var direction := Input.get_vector(\"a\", \"d\", \"w\", \"s\")
+	velocity = direction * SPEED
+	move_and_slide()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_owlxk"]
+size = Vector2(128, 128)
+
+[sub_resource type="GDScript" id="GDScript_ckgc8"]
+resource_name = "chaser"
+script/source = "extends CharacterBody2D
+
+const SPEED = 150
+
+var current_state: Callable = idle
+var target: Node2D = null
+@onready var home: Vector2 = global_position
+
+func _physics_process(_delta: float) -> void:
+	current_state.call()
+
+func idle() -> void:
+	pass
+	
+func chasing() -> void:
+	look_at(target.global_position)
+	velocity = transform.x * SPEED
+	move_and_slide()
+	
+func return_home() -> void:
+	look_at(home)
+	velocity = transform.x * SPEED
+	move_and_slide()
+	if global_position.distance_to(home) < 10:
+		rotation = 0
+		change_state(idle, \"Idle\")
+
+func change_state(state: Callable, state_name: String) -> void:
+	current_state = state
+	$\"../EnemyStateLabel\".text = \"Enemy State: \" + state_name
+
+func _on_vision_cone_body_entered(body: Node2D) -> void:
+	target = body
+	change_state(chasing, \"Chasing\")
+	
+func _on_vision_cone_body_exited(_body: Node2D) -> void:
+	target = null
+	change_state(return_home, \"Returning Home\")
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qax22"]
+size = Vector2(128, 128)
+
+[node name="FSM" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(944, 345)
+collision_layer = 3
+motion_mode = 1
+script = SubResource("GDScript_owlxk")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("1_ckgc8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_owlxk")
+
+[node name="Enemy" type="CharacterBody2D" parent="."]
+position = Vector2(324, 340)
+script = SubResource("GDScript_ckgc8")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy"]
+modulate = Color(1, 0.6039216, 0.5137255, 1)
+texture = ExtResource("1_ckgc8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+shape = SubResource("RectangleShape2D_qax22")
+
+[node name="VisionCone" type="Area2D" parent="Enemy"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemy/VisionCone"]
+polygon = PackedVector2Array(0, 0, 200, 100, 200, -100)
+
+[node name="Polygon2D" type="Polygon2D" parent="Enemy/VisionCone"]
+color = Color(1, 1, 0.5176471, 0.28235295)
+polygon = PackedVector2Array(0, 0, 200, 100, 200, -100)
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 379.0
+offset_top = 562.0
+offset_right = 724.0
+offset_bottom = 611.0
+text = "Controls: WASD
+States: Idle->Chasing->Returning Home->Idle"
+
+[node name="EnemyStateLabel" type="Label" parent="."]
+offset_left = 526.0
+offset_top = 155.0
+offset_right = 776.0
+offset_bottom = 197.0
+theme_override_font_sizes/font_size = 30
+text = "Enemy State: Idle"
+
+[connection signal="body_entered" from="Enemy/VisionCone" to="Enemy" method="_on_vision_cone_body_entered"]
+[connection signal="body_exited" from="Enemy/VisionCone" to="Enemy" method="_on_vision_cone_body_exited"]

@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://bgqi5cg6n6swv" path="res://pong_match.gd" id="1_o7i24"]
 [ext_resource type="PackedScene" uid="uid://cv6r2wbfv4e8f" path="res://paddle.tscn" id="1_oft38"]
 [ext_resource type="Script" uid="uid://7pcgf28qjtc" path="res://pong_ball.gd" id="1_r720o"]
-[ext_resource type="Script" uid="uid://b3oevhot6xvip" path="res://simple_ai.gd" id="5_o7i24"]
 [ext_resource type="Script" uid="uid://cv5x1114opjq6" path="res://predictive_ai.gd" id="6_5mdgq"]
+[ext_resource type="Script" uid="uid://bir7031he5yaj" path="res://human_controller.gd" id="6_ogeje"]
 [ext_resource type="Script" uid="uid://dobc66kqo14x3" path="res://hitstop_shake.gd" id="6_rvcuf"]
 [ext_resource type="Script" uid="uid://dc6pcwdq18gu" path="res://rl_controller.gd" id="6_u1yvm"]
 
@@ -94,15 +94,16 @@ position = Vector2(1250, 360)
 speed = 1400.0
 
 [node name="PredictiveAI" type="Node2D" parent="PaddleB" node_paths=PackedStringArray("ball")]
+process_mode = 4
 top_level = true
 z_index = 1
 script = ExtResource("6_5mdgq")
 ball = NodePath("../../PongBall")
 
-[node name="Node" type="Node" parent="PaddleB" node_paths=PackedStringArray("ball")]
-process_mode = 4
-script = ExtResource("5_o7i24")
-ball = NodePath("../../PongBall")
+[node name="HumanController" type="Node" parent="PaddleB"]
+script = ExtResource("6_ogeje")
+action_up = "PaddleBUp"
+action_down = "PaddleBDown"
 
 [node name="ScoreA" type="Label" parent="."]
 offset_left = 160.0
@@ -193,6 +194,5 @@ scale_amount_curve = SubResource("Curve_u1yvm")
 [connection signal="kickoff" from="." to="PaddleA/PredictiveAI" method="_on_kickoff"]
 [connection signal="kickoff" from="." to="PaddleB/PredictiveAI" method="_on_kickoff"]
 [connection signal="ball_collision" from="PongBall" to="PaddleA/PredictiveAI" method="_on_ball_collision"]
-[connection signal="ball_collision" from="PongBall" to="PaddleB/PredictiveAI" method="_on_ball_collision"]
 [connection signal="body_entered" from="GoalLeft" to="." method="_on_goal_left_body_entered"]
 [connection signal="body_entered" from="GoalRight" to="." method="_on_goal_right_body_entered"]
