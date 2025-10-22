@@ -1,0 +1,155 @@
+[gd_scene load_steps=15 format=3 uid="uid://c4gnnryp7n2v1"]
+
+[ext_resource type="PackedScene" uid="uid://bwsxnjfo4yg6y" path="res://scenes/player/paddle.tscn" id="1_my7ih"]
+[ext_resource type="Script" uid="uid://c2dsnpmgnpnlh" path="res://scenes/pong_game.gd" id="1_xvlli"]
+[ext_resource type="Script" uid="uid://cs1ecsbaegea2" path="res://scenes/player/human_controller.gd" id="2_x1fb0"]
+[ext_resource type="Script" uid="uid://djpd5he732tw2" path="res://scenes/pong_ball.gd" id="3_88yg1"]
+[ext_resource type="Script" uid="uid://dfbkw8bleot3t" path="res://scenes/simple_ai.gd" id="4_wu145"]
+[ext_resource type="Script" uid="uid://cvx0wovh52kn0" path="res://scenes/predictive_ai.gd" id="4_wyrpq"]
+
+[sub_resource type="Gradient" id="Gradient_s4lj5"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_my7ih"]
+gradient = SubResource("Gradient_s4lj5")
+width = 1280
+height = 720
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x1fb0"]
+size = Vector2(1280, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_88yg1"]
+size = Vector2(20, 760)
+
+[sub_resource type="Gradient" id="Gradient_x1fb0"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_88yg1"]
+gradient = SubResource("Gradient_x1fb0")
+width = 40
+height = 40
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvlli"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wu145"]
+size = Vector2(30, 720)
+
+[node name="PongGame" type="Node2D" node_paths=PackedStringArray("ball", "paddle_left", "paddle_right", "label_a", "label_b")]
+script = ExtResource("1_xvlli")
+ball = NodePath("PongBall")
+paddle_left = NodePath("PaddleA")
+paddle_right = NodePath("PaddleB")
+label_a = NodePath("ScoreA")
+label_b = NodePath("ScoreB")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = SubResource("GradientTexture2D_my7ih")
+
+[node name="PaddleA" parent="." instance=ExtResource("1_my7ih")]
+position = Vector2(30, 360)
+
+[node name="HumanController" type="Node" parent="PaddleA"]
+script = ExtResource("2_x1fb0")
+metadata/_custom_type_script = "uid://cs1ecsbaegea2"
+
+[node name="PredictiveAI" type="Node2D" parent="PaddleA" node_paths=PackedStringArray("ball")]
+top_level = true
+script = ExtResource("4_wyrpq")
+ball = NodePath("../../PongBall")
+metadata/_custom_type_script = "uid://cvx0wovh52kn0"
+
+[node name="PaddleB" parent="." instance=ExtResource("1_my7ih")]
+position = Vector2(1250, 360)
+
+[node name="HumanController" type="Node" parent="PaddleB"]
+script = ExtResource("2_x1fb0")
+action_up = "PaddleBUp"
+action_down = "PaddleBDown"
+metadata/_custom_type_script = "uid://cs1ecsbaegea2"
+
+[node name="SimpleAI" type="Node" parent="PaddleB" node_paths=PackedStringArray("ball")]
+script = ExtResource("4_wu145")
+ball = NodePath("../../PongBall")
+metadata/_custom_type_script = "uid://dfbkw8bleot3t"
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="TopWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, -10)
+shape = SubResource("RectangleShape2D_x1fb0")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 730)
+shape = SubResource("RectangleShape2D_x1fb0")
+
+[node name="GoalLeft" type="Area2D" parent="."]
+position = Vector2(-10, 360)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalLeft"]
+shape = SubResource("RectangleShape2D_88yg1")
+debug_color = Color(0.6848627, 0, 0.045812443, 0.41960785)
+
+[node name="GoalRight" type="Area2D" parent="."]
+position = Vector2(1290, 360)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalRight"]
+shape = SubResource("RectangleShape2D_88yg1")
+debug_color = Color(0.6848627, 0, 0.045812443, 0.41960785)
+
+[node name="PongBall" type="CharacterBody2D" parent="." groups=["ball"]]
+position = Vector2(640, 360)
+script = ExtResource("3_88yg1")
+metadata/_edit_group_ = true
+
+[node name="BallSprite" type="Sprite2D" parent="PongBall"]
+texture = SubResource("GradientTexture2D_88yg1")
+
+[node name="BallShape" type="CollisionShape2D" parent="PongBall"]
+shape = SubResource("RectangleShape2D_xvlli")
+
+[node name="ScoreA" type="Label" parent="."]
+offset_left = 160.0
+offset_top = 60.0
+offset_right = 287.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 111
+text = "00"
+
+[node name="ScoreB" type="Label" parent="."]
+offset_left = 993.0
+offset_top = 60.0
+offset_right = 1120.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 111
+text = "00"
+
+[node name="DetectorWallLeft" type="StaticBody2D" parent="." groups=["detectors"]]
+position = Vector2(30, 360)
+collision_layer = 2
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorWallLeft"]
+shape = SubResource("RectangleShape2D_wu145")
+debug_color = Color(0.30203804, 0.5106283, 1.92523e-07, 0.41960785)
+
+[node name="DetectorWallRight" type="StaticBody2D" parent="." groups=["detectors"]]
+position = Vector2(1250, 360)
+collision_layer = 4
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorWallRight"]
+shape = SubResource("RectangleShape2D_wu145")
+debug_color = Color(0.30203804, 0.5106283, 1.92523e-07, 0.41960785)
+
+[connection signal="kickoff" from="." to="PaddleA/PredictiveAI" method="_on_kickoff"]
+[connection signal="body_entered" from="GoalLeft" to="." method="_on_goal_left_body_entered"]
+[connection signal="body_entered" from="GoalRight" to="." method="_on_goal_right_body_entered"]
+[connection signal="ball_collision" from="PongBall" to="PaddleA/PredictiveAI" method="_on_ball_collision"]
