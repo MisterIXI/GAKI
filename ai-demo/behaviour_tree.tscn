@@ -1,0 +1,229 @@
+[gd_scene load_steps=18 format=3 uid="uid://cojpm8ld10ovf"]
+
+[ext_resource type="Script" uid="uid://dme5f24l0edsf" path="res://addons/beehave/blackboard.gd" id="1_05o4i"]
+[ext_resource type="Texture2D" uid="uid://bjgm44g8usxfi" path="res://icon.svg" id="2_nsb35"]
+[ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="3_njclt"]
+[ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="4_aonul"]
+[ext_resource type="Script" uid="uid://dcojdhvj8qcw0" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="5_smsco"]
+
+[sub_resource type="GDScript" id="GDScript_ckgc8"]
+resource_name = "chaser"
+script/source = "extends CharacterBody2D
+
+func _physics_process(_delta):
+	move_and_slide()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qax22"]
+size = Vector2(128, 128)
+
+[sub_resource type="GDScript" id="GDScript_rag4j"]
+resource_name = "PlayerSensor"
+script/source = "extends Area2D
+
+@onready var beehave_tree = $\"../BeehaveTree\"
+
+
+	
+	
+
+func _on_body_entered(body):
+	beehave_tree.blackboard.set_value(\"IsPlayerVisible\", true)
+	beehave_tree.blackboard.set_value(\"Player\", body)
+	
+
+
+func _on_body_exited(_body):
+	beehave_tree.blackboard.set_value(\"IsPlayerVisible\", false)
+"
+
+[sub_resource type="GDScript" id="GDScript_jxu13"]
+resource_name = "HomePosSaver"
+script/source = "extends Node
+func _ready():
+	var blackboard: Blackboard = $\"../BeehaveTree\".blackboard
+	await blackboard.ready
+	blackboard.set_value(\"HomePos\", get_parent().global_position)
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_7yvjh"]
+resource_name = "IsPlayerVisible"
+script/source = "@tool
+extends ConditionLeaf
+
+func tick(_actor: Node, blackboard:Blackboard):
+	if blackboard.get_value(\"IsPlayerVisible\",false):
+		return SUCCESS
+	return FAILURE
+"
+
+[sub_resource type="GDScript" id="GDScript_a4yem"]
+resource_name = "ChasePlayer"
+script/source = "@tool
+extends ActionLeaf
+const SPEED = 150
+
+func tick(actor: Node, blackboard:Blackboard):
+	var player = blackboard.get_value(\"Player\")
+	var chara = actor as CharacterBody2D
+	chara.look_at(player.global_position)
+	chara.velocity = chara.transform.x * SPEED
+	return RUNNING
+"
+
+[sub_resource type="GDScript" id="GDScript_b4fca"]
+resource_name = "AwayFromHome"
+script/source = "@tool
+extends ConditionLeaf
+
+func tick(actor: Node, blackboard:Blackboard):
+	if actor.global_position.distance_to(blackboard.get_value(\"HomePos\")) < 10:
+		return FAILURE
+	return SUCCESS
+"
+
+[sub_resource type="GDScript" id="GDScript_m1353"]
+resource_name = "ReturnHome"
+script/source = "@tool
+extends ActionLeaf
+const SPEED = 150
+
+
+func tick(actor: Node, blackboard:Blackboard):
+	var chara = actor as CharacterBody2D
+	chara.look_at(blackboard.get_value(\"HomePos\"))
+	chara.velocity = chara.transform.x * SPEED
+	return RUNNING
+"
+
+[sub_resource type="GDScript" id="GDScript_45rgv"]
+resource_name = "RotateBack"
+script/source = "@tool
+extends ActionLeaf
+
+func tick(actor: Node, _blackboard:Blackboard):
+	var chara = actor as CharacterBody2D
+	chara.rotation = 0
+	return FAILURE
+"
+
+[sub_resource type="GDScript" id="GDScript_g6yrq"]
+resource_name = "Idle"
+script/source = "@tool
+extends ActionLeaf
+
+func tick(actor: Node, _blackboard:Blackboard):
+	var chara = actor as CharacterBody2D
+	chara.velocity = Vector2.ZERO
+	return FAILURE
+"
+
+[sub_resource type="GDScript" id="GDScript_owlxk"]
+resource_name = "Player"
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+
+func _physics_process(_delta: float) -> void:
+	var direction := Input.get_vector(\"a\", \"d\", \"w\", \"s\")
+	velocity = direction * SPEED
+	move_and_slide()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_owlxk"]
+size = Vector2(128, 128)
+
+[node name="BehaviourTree" type="Node2D"]
+
+[node name="Blackboard" type="Node" parent="."]
+script = ExtResource("1_05o4i")
+metadata/_custom_type_script = "uid://dme5f24l0edsf"
+
+[node name="Enemy" type="CharacterBody2D" parent="."]
+position = Vector2(324, 340)
+script = SubResource("GDScript_ckgc8")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy"]
+modulate = Color(1, 0.6039216, 0.5137255, 1)
+texture = ExtResource("2_nsb35")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+shape = SubResource("RectangleShape2D_qax22")
+
+[node name="VisionCone" type="Area2D" parent="Enemy"]
+collision_layer = 0
+collision_mask = 2
+script = SubResource("GDScript_rag4j")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemy/VisionCone"]
+polygon = PackedVector2Array(0, 0, 200, 100, 200, -100)
+
+[node name="Polygon2D" type="Polygon2D" parent="Enemy/VisionCone"]
+color = Color(1, 1, 0.5176471, 0.28235295)
+polygon = PackedVector2Array(0, 0, 200, 100, 200, -100)
+
+[node name="HomePosSaver" type="Node" parent="Enemy"]
+script = SubResource("GDScript_jxu13")
+
+[node name="BeehaveTree" type="Node" parent="Enemy" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("3_njclt")
+blackboard = NodePath("@Node@21063")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
+
+[node name="Selector" type="Node" parent="Enemy/BeehaveTree"]
+script = ExtResource("4_aonul")
+metadata/_custom_type_script = "uid://8hn4kne15ac5"
+
+[node name="ChaseSequence" type="Node" parent="Enemy/BeehaveTree/Selector"]
+script = ExtResource("5_smsco")
+metadata/_custom_type_script = "uid://dcojdhvj8qcw0"
+
+[node name="IsPlayerVisible" type="Node" parent="Enemy/BeehaveTree/Selector/ChaseSequence"]
+script = SubResource("GDScript_7yvjh")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="ChasePlayer" type="Node" parent="Enemy/BeehaveTree/Selector/ChaseSequence"]
+script = SubResource("GDScript_a4yem")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="ReturnHome" type="Node" parent="Enemy/BeehaveTree/Selector"]
+script = ExtResource("5_smsco")
+metadata/_custom_type_script = "uid://dcojdhvj8qcw0"
+
+[node name="IsAwayFromHome" type="Node" parent="Enemy/BeehaveTree/Selector/ReturnHome"]
+script = SubResource("GDScript_b4fca")
+metadata/_custom_type_script = "uid://cbnbvj8prv63i"
+
+[node name="Return Home" type="Node" parent="Enemy/BeehaveTree/Selector/ReturnHome"]
+script = SubResource("GDScript_m1353")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="RotateBack" type="Node" parent="Enemy/BeehaveTree/Selector"]
+script = SubResource("GDScript_45rgv")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="Idle" type="Node" parent="Enemy/BeehaveTree/Selector"]
+script = SubResource("GDScript_g6yrq")
+metadata/_custom_type_script = "uid://cv74jjdrwevpr"
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(944, 345)
+collision_layer = 3
+motion_mode = 1
+script = SubResource("GDScript_owlxk")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("2_nsb35")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_owlxk")
+
+[connection signal="body_entered" from="Enemy/VisionCone" to="Enemy/VisionCone" method="_on_body_entered"]
+[connection signal="body_exited" from="Enemy/VisionCone" to="Enemy/VisionCone" method="_on_body_exited"]
