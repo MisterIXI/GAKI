@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="33.866665mm"
+   height="33.866665mm"
+   viewBox="0 0 33.866665 33.866665"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="cannon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="43.133514"
+     inkscape:cy="69.915183"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#b5b5b5;stroke:#000000;stroke-width:3.75962;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.2;stroke-dasharray:none;paint-order:markers stroke fill;fill-opacity:1"
+       id="rect1"
+       width="9.3191519"
+       height="10.299811"
+       x="12.273756"
+       y="19.786886" />
+    <rect
+       style="fill:#b5b5b5;stroke:#000000;stroke-width:4.0152;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.2;stroke-dasharray:none;paint-order:markers stroke fill;fill-opacity:1"
+       id="rect2"
+       width="15.27441"
+       height="13.54658"
+       x="9.2961273"
+       y="4.6910968" />
+  </g>
+</svg>

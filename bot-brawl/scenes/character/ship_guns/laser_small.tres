@@ -7,5 +7,5 @@
 script = ExtResource("1_tkanj")
 projectile_scene = ExtResource("1_t5jvf")
 is_laser = true
-laser_velocity = 800.0
+laser_velocity = 1500.0
 metadata/_custom_type_script = "uid://blf4kd727gb8y"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ProjectileSetting" load_steps=3 format=3 uid="uid://clg6rp6fda5e0"]
+
+[ext_resource type="Script" uid="uid://blf4kd727gb8y" path="res://scenes/character/ship_guns/projectile_setting.gd" id="1_ef045"]
+[ext_resource type="PackedScene" uid="uid://dawj016qnhwo3" path="res://scenes/character/ship_guns/missile.tscn" id="1_rf6bs"]
+
+[resource]
+script = ExtResource("1_ef045")
+projectile_scene = ExtResource("1_rf6bs")
+is_missile = true
+fuel_duration = 10.0
+turning_gain = 500.0
+turning_damp = 100.0
+velocity_alignment_rate = 2.0
+boosting_strength = 200.0
+detector_distance = 1000.0
+metadata/_custom_type_script = "uid://blf4kd727gb8y"

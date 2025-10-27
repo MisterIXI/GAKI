@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://dawj016qnhwo3"]
+
+[ext_resource type="Texture2D" uid="uid://bxwb4ex2o6yqg" path="res://assets/kenney/Missiles/spaceMissiles_001.png" id="1_38v1a"]
+[ext_resource type="Script" uid="uid://gxuhq4gkhw8n" path="res://scenes/character/ship_guns/missile.gd" id="1_iuo33"]
+[ext_resource type="PackedScene" uid="uid://cwyn2cf0smqg" path="res://scenes/character/exhaust_fire.tscn" id="3_iuo33"]
+[ext_resource type="Texture2D" uid="uid://bss2lhpd5dkbl" path="res://assets/kenney/Effects/spaceEffects_016.png" id="5_6tvn0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_38v1a"]
+radius = 4.0
+height = 28.0
+
+[sub_resource type="Curve" id="Curve_tw2fy"]
+_data = [Vector2(0.0075187907, 0), 0.0, 0.0, 0, 0, Vector2(0.12781954, 1), 0.069597036, 0.069597036, 0, 0, Vector2(1, 0), -2.714286, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_w77kb"]
+offsets = PackedFloat32Array(0.7083333, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Missile" type="RigidBody2D"]
+collision_layer = 2
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_iuo33")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5707964
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_38v1a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_38v1a")
+
+[node name="ExhaustFire" parent="." instance=ExtResource("3_iuo33")]
+position = Vector2(-20, -6.394884e-14)
+rotation = 1.5707964
+scale = Vector2(0.4, 0.4)
+
+[node name="ShipDetector" type="Area2D" parent="."]
+rotation = 1.5707964
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShipDetector"]
+polygon = PackedVector2Array(0, 0, -30, -60, 30, -60)
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 100
+texture = ExtResource("5_6tvn0")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.77
+randomness = 0.57
+emission_shape = 1
+emission_sphere_radius = 50.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 55.67
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+scale_amount_min = 0.1
+scale_amount_max = 0.3
+scale_amount_curve = SubResource("Curve_tw2fy")
+color_ramp = SubResource("Gradient_w77kb")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="ShipDetector" to="." method="_on_ship_detector_body_entered"]
+[connection signal="body_exited" from="ShipDetector" to="." method="_on_ship_detector_body_exited"]

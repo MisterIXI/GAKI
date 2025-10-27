@@ -11,7 +11,12 @@ extends Resource
 @export var fuel_duration: float = 5
 ## Turning speed in degree/seconds
 @export var turning_speed: float = 30
+@export var turning_gain: float = 100
+@export var turning_damp: float = 10
+@export var velocity_alignment_rate: float = 1.0
 @export var boosting_strength: float = 50
+## Distance of detector polygon (FOV 45deg) in px
+@export var detector_distance: float = 180
 ## Explosion radius
 @export var explosion_radius: float = 50
 @export var explosion_damage: float = 15

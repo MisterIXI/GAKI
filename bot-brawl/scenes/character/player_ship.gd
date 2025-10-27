@@ -1,4 +1,4 @@
-class_name PlayerShip
+class_name SpaceShip
 extends RigidBody2D
 
 @export var speed: float = 500
@@ -18,10 +18,12 @@ var acceleration_input: Vector2 = Vector2.ZERO
 
 signal thrusting_changed(is_thrusting: bool)
 signal boosting_changed(is_boosting: bool)
-signal laserguns_triggered()
-signal missiles_triggered()
+signal primary_fire_triggered()
+signal secondary_fire_triggered()
 signal damaged(damage: float)
 
+func _ready():
+	add_to_group("ship")
 
 func _physics_process(_delta):
 	# handle acceleration input
@@ -37,11 +39,11 @@ func check_for_thrusting_state() -> void:
 		is_thrusting = !is_thrusting
 		thrusting_changed.emit(is_thrusting)
 
-func shoot_guns():
-	laserguns_triggered.emit()
+func shoot_primary():
+	primary_fire_triggered.emit()
 
-func shoot_missiles():
-	missiles_triggered.emit()
+func shoot_secondary():
+	secondary_fire_triggered.emit()
 
 func take_damage(damage: float):
 	damaged.emit(damage)

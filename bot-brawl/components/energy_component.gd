@@ -1,4 +1,4 @@
-@icon("res://assets/kenney/Power-ups/bolt_gold.png")
+@icon("res://assets/icons/lightning_bolt.svg")
 class_name EnergyComponent
 extends Node2D
 

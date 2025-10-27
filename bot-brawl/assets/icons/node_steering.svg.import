@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ldatcfs7cosj"
-path="res://.godot/imported/heart.svg-13b72b358270b14f6db0c39d1e66ef6a.ctex"
+uid="uid://rpoaludkg4c"
+path="res://.godot/imported/node_steering.svg-a1572f966492431a54e0d08ae25e6cc0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/bootstrap/heart.svg"
-dest_files=["res://.godot/imported/heart.svg-13b72b358270b14f6db0c39d1e66ef6a.ctex"]
+source_file="res://assets/icons/node_steering.svg"
+dest_files=["res://.godot/imported/node_steering.svg-a1572f966492431a54e0d08ae25e6cc0.ctex"]
 
 [params]
 
