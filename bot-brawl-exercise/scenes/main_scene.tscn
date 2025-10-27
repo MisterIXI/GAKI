@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dig1s53xpnhhd"]
+[gd_scene load_steps=3 format=3 uid="uid://dig1s53xpnhhd"]
 
 [ext_resource type="Texture2D" uid="uid://7uy70k68fklk" path="res://assets/kenney/Backgrounds/darkPurple.png" id="1_w2twt"]
+[ext_resource type="Texture2D" uid="uid://li8obdodi5t8" path="res://assets/kenney/Ships/spaceShips_005.png" id="2_pw63i"]
 
 [node name="MainScene" type="Node2D"]
 
@@ -11,3 +12,20 @@ repeat_times = 17
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 scale = Vector2(2, 2)
 texture = ExtResource("1_w2twt")
+
+[node name="PlayerShip" type="RigidBody2D" parent="."]
+
+[node name="ShipSprite" type="Sprite2D" parent="PlayerShip"]
+rotation = 3.1415927
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_pw63i")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerShip"]
+rotation = -3.1415925
+scale = Vector2(0.3, 0.3)
+polygon = PackedVector2Array(-116.66668, -153.33331, -136.66667, -139.99998, -113.333336, -59.999985, -126.66667, -36.666645, -96.666664, -9.999986, -99.99999, 26.666681, -169.99998, 76.66669, -166.66664, 146.66669, -123.333305, 153.33334, -73.33331, 86.66667, -66.66665, 103.333336, -43.333317, 103.333336, -39.999992, 56.66667, 40.000008, 56.666656, 43.333347, 103.33332, 66.66668, 103.33332, 73.33334, 89.99999, 126.66669, 149.99998, 166.66667, 146.66663, 170.00002, 83.333305, 100.00001, 26.66665, 100, -10.000015, 126.666664, -36.666676, 109.99999, -63.333344, 136.66664, -143.33334, 116.66665, -153.33334, 96.66666, -120.00001, 59.99999, -120.00001, 46.666656, -106.66667, 49.999996, -63.333336, 23.333328, -53.333336, 16.66666, -63.333332, -20.000006, -63.333332, -26.66667, -53.33333, -46.666676, -63.333324, -46.66668, -106.66666, -60.00002, -119.99999, -96.66667, -116.66666)
+
+[node name="Camera2D" type="Camera2D" parent="PlayerShip"]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
