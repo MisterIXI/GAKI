@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ProjectileSetting" load_steps=2 format=3 uid="uid://bis1lxg3d3fp5"]
+
+[ext_resource type="Script" uid="uid://c4caa3ym7l4ci" path="res://scenes/weapons/projectile_settings.gd" id="1_mmudf"]
+
+[resource]
+script = ExtResource("1_mmudf")
+is_laser = true
+metadata/_custom_type_script = "uid://c4caa3ym7l4ci"
