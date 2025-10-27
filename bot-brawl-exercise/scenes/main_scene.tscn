@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dig1s53xpnhhd"]
+[gd_scene load_steps=11 format=3 uid="uid://dig1s53xpnhhd"]
 
 [ext_resource type="Texture2D" uid="uid://7uy70k68fklk" path="res://assets/kenney/Backgrounds/darkPurple.png" id="1_w2twt"]
 [ext_resource type="Material" uid="uid://hrcwv1dsr3fn" path="res://components/materials/team_col_mat.tres" id="2_7ykc4"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bsd1op3prbby8" path="res://components/health_component.gd" id="4_pu3yx"]
 [ext_resource type="Script" uid="uid://dxlrjbl102iug" path="res://components/health_bar.gd" id="5_gubc5"]
 [ext_resource type="Script" uid="uid://dtj16nbsg7yd8" path="res://components/manual_control.gd" id="6_rt2n2"]
+[ext_resource type="PackedScene" uid="uid://d3darmcmdc4n1" path="res://scenes/exhaust_fire.tscn" id="8_18nlu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gubc5"]
 bg_color = Color(0.33333334, 0.33333334, 0.33333334, 0.39215687)
@@ -64,3 +65,9 @@ metadata/_custom_type_script = "uid://dxlrjbl102iug"
 [node name="ManualControl" type="Node" parent="PlayerShip"]
 script = ExtResource("6_rt2n2")
 metadata/_custom_type_script = "uid://dtj16nbsg7yd8"
+
+[node name="ExhaustFireLeft" parent="PlayerShip" instance=ExtResource("8_18nlu")]
+position = Vector2(-24, 50)
+
+[node name="ExhaustFireRight" parent="PlayerShip" instance=ExtResource("8_18nlu")]
+position = Vector2(24, 50)

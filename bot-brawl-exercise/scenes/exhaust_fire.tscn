@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3darmcmdc4n1"]
+
+[ext_resource type="Texture2D" uid="uid://bxxj08emg131p" path="res://assets/kenney/Effects/fire14.png" id="1_qn7sw"]
+[ext_resource type="Texture2D" uid="uid://cqn4kuv8dtjwg" path="res://assets/kenney/Effects/spaceEffects_011.png" id="2_6v56h"]
+[ext_resource type="Script" uid="uid://vtgwxyb3htb8" path="res://scenes/exhaust_fire.gd" id="2_h7xl4"]
+
+[sub_resource type="Curve" id="Curve_h7xl4"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25000003, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_ewxhc"]
+offsets = PackedFloat32Array(0.5205479, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="ExhaustFire" type="Sprite2D"]
+texture = ExtResource("1_qn7sw")
+script = ExtResource("2_h7xl4")
+
+[node name="ExhaustSmoke" type="CPUParticles2D" parent="."]
+position = Vector2(0, -13)
+emitting = false
+texture = ExtResource("2_6v56h")
+lifetime = 0.5
+randomness = 0.5
+direction = Vector2(0, 1)
+spread = 40.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+scale_amount_min = 0.2
+scale_amount_max = 0.5
+scale_amount_curve = SubResource("Curve_h7xl4")
+color_ramp = SubResource("Gradient_ewxhc")
