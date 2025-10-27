@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dig1s53xpnhhd"]
+[gd_scene load_steps=2 format=3 uid="uid://dig1s53xpnhhd"]
 
 [ext_resource type="Texture2D" uid="uid://7uy70k68fklk" path="res://assets/kenney/Backgrounds/darkPurple.png" id="1_w2twt"]
-[ext_resource type="Material" uid="uid://cmprmcbj7lxq4" path="res://components/materials/team_color_mat.tres" id="2_7ykc4"]
-[ext_resource type="Texture2D" uid="uid://li8obdodi5t8" path="res://assets/kenney/Ships/spaceShips_005.png" id="2_pw63i"]
 
 [node name="MainScene" type="Node2D"]
 
@@ -13,16 +11,3 @@ repeat_times = 17
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 scale = Vector2(2, 2)
 texture = ExtResource("1_w2twt")
-
-[node name="PlayerShip" type="RigidBody2D" parent="."]
-rotation = -1.5707964
-
-[node name="ShipSprite" type="Sprite2D" parent="PlayerShip"]
-material = ExtResource("2_7ykc4")
-rotation = -1.5707964
-texture = ExtResource("2_pw63i")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerShip"]
-visible = false
-rotation = -1.5707964
-polygon = PackedVector2Array(-111.999985, -152.00002, -136.99998, -140.00002, -112.99999, -63.00001, -125, -38.00001, -92, -11.000008, -98, -8.567432e-06, -100, 25.99999, -170, 82.999985, -168.00002, 146.99998, -124.000015, 150.99998, -78.00001, 96.99999, -80.00001, 76.99999, -71, 77.2, -71.00001, 103.99999, -39.000008, 105, -39, 75.5, -43, 72.5, -43, 62.600006, -27.300003, 52.399994, 27.800003, 51.899994, 40.999996, 62.000004, 39.999992, 104, 67.99999, 104.00001, 69.99999, 78.00001, 79.99999, 79.00001, 75.99999, 96.00001, 124.999985, 150.00002, 166.99998, 146.00002, 170, 81.000015, 100, 23.00001, 99, 8.654855e-06, 99, -14.999991, 125, -37.99999, 111.00001, -61.99999, 136.00002, -141.99998, 116.000015, -151.99998, 96.00001, -118.99999, 61.00001, -118.99999, 49.000008, -106.99999, 50.000004, -64.99999, 26.000004, -46.999996, 17.000006, -61, -16.999994, -62, -24.999996, -48.000004, -46.999996, -62.000004, -47.999992, -107.00001, -60.99999, -119.00001, -94.99999, -119.00001)
