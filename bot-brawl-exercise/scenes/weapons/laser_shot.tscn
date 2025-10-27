@@ -7,8 +7,9 @@
 radius = 2.0
 height = 18.0
 
-[node name="LaserShot" type="Area2D"]
+[node name="LaserShot" type="Area2D" node_paths=PackedStringArray("ray")]
 script = ExtResource("1_7oebu")
+ray = NodePath("RayCast2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -1.5707964

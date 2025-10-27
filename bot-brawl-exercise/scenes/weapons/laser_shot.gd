@@ -41,8 +41,8 @@ func _on_body_entered(body: Node2D):
 	if body.is_in_group("has_health"):
 		# get health component of body and damage it
 		body.get_node(body.get_meta("health_path")).damage(settings.laser_damage)
-	if body.is_in_group("missile"):
-		var missile = body as Missile
-		missile.explode()
+	# if body.is_in_group("missile"):
+	# 	var missile = body as Missile
+	# 	missile.explode()
 	# self destruct
 	queue_free()
