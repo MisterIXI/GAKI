@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://qjru4sp7fog1"]
+
+[ext_resource type="Script" uid="uid://d0ajfc8cbyc1h" path="res://scenes/weapons/missile.gd" id="1_s66l8"]
+[ext_resource type="Texture2D" uid="uid://bxwb4ex2o6yqg" path="res://assets/kenney/Missiles/spaceMissiles_001.png" id="2_dhosa"]
+[ext_resource type="PackedScene" uid="uid://d3darmcmdc4n1" path="res://scenes/exhaust_fire.tscn" id="3_e40un"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e40un"]
+radius = 4.0
+height = 28.0
+
+[node name="Missile" type="RigidBody2D"]
+script = ExtResource("1_s66l8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5707964
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_dhosa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_e40un")
+
+[node name="ExhaustFire" parent="." instance=ExtResource("3_e40un")]
+position = Vector2(-20, -1.350031e-13)
+rotation = 1.5707964
+scale = Vector2(0.4, 0.4)
