@@ -5,14 +5,13 @@ extends Node2D
 @export var paddle_left: Paddle
 @export var paddle_right: Paddle
 
-
 @export var label_a: Label
 @export var label_b: Label
 var score_a: int = 0
 var score_b: int = 0
 
 signal kickoff
-signal goal(has_player_left_one: bool)
+signal goal(goal_on_right: bool)
 
 func _ready():
 	reset_ball(true)
@@ -45,7 +44,7 @@ func reset_ball(towards_left: bool = true) -> void:
 		ball.velocity = Vector2(-300, 0)
 	else:
 		ball.velocity = Vector2(300, 0)
-	# rotate by 10% of 180 degrees
+	# rotate by 10% of 180 degrees for random kickoff
 	ball.velocity = ball.velocity.rotated(randf() * PI * 0.1)
 	kickoff.emit()
 	

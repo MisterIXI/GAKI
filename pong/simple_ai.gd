@@ -1,3 +1,4 @@
+class_name SimpleAI
 extends Node
 
 @export var ball: PongBall

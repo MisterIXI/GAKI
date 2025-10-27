@@ -13,11 +13,12 @@ func _physics_process(delta):
 		# check if collided with a paddle
 		var collider: Node = collision.get_collider()
 		if collider.is_in_group("paddles"):
+			# make special bounce to make aiming possible
 			_handle_paddle_collision(collision)
 			ball_collision.emit(collision)
 		else:
+			# bounce normally
 			velocity = velocity.bounce(collision.get_normal())
-	pass
 
 func _handle_paddle_collision(collision: KinematicCollision2D) -> void:
 	if collision.get_collider() is not Paddle:
@@ -27,6 +28,7 @@ func _handle_paddle_collision(collision: KinematicCollision2D) -> void:
 	var paddle: Paddle = collision.get_collider()
 	var paddle_center: Vector2 = paddle.global_position
 	var hit_position: Vector2 = collision.get_position()
+	# calculate how far up or down the paddle the ball collided
 	var diff = hit_position.y - paddle_center.y
 	diff = diff / (paddle.size / 2.0)
 	var magnitude: float = velocity.length()

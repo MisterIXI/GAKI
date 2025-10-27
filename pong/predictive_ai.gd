@@ -2,7 +2,7 @@ class_name PredictiveAI
 extends Node2D
 
 @export var ball: PongBall
-@export var detector_layer: int = 0b100
+@export var detector_layer: int = 0b0100
 @onready var paddle: Paddle = get_parent()
 signal target_predicted(target_height:float)
 
