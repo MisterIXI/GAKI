@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://c55aus7xmw358"]
+
+[ext_resource type="Script" uid="uid://bf1tfcdb5kydv" path="res://test.gd" id="1_wtcfe"]
+[ext_resource type="Texture2D" uid="uid://bn8jbpepx33ee" path="res://icon.svg" id="2_0hol4"]
+[ext_resource type="Script" uid="uid://jm6hb2pjbgg3" path="res://mover.gd" id="3_q6r6c"]
+[ext_resource type="Script" uid="uid://dspsemckiu7vp" path="res://mover_phy.gd" id="4_kdubu"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_wtcfe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0hol4")
+script = ExtResource("3_q6r6c")
+
+[node name="_process" type="Label" parent="Sprite2D"]
+offset_left = -31.0
+offset_top = -88.0
+offset_right = 36.0
+offset_bottom = -65.0
+text = "_process"
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(0, 181)
+texture = ExtResource("2_0hol4")
+script = ExtResource("4_kdubu")
+
+[node name="_physics" type="Label" parent="Sprite2D2"]
+offset_left = -64.0
+offset_top = -87.0
+offset_right = 66.0
+offset_bottom = -64.0
+text = "_physics_process"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(473, 84)

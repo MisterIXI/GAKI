@@ -1,0 +1,136 @@
+[gd_scene load_steps=8 format=3 uid="uid://bf88cb8gsagpi"]
+
+[ext_resource type="Texture2D" uid="uid://bjgm44g8usxfi" path="res://icon.svg" id="1_13jh8"]
+
+[sub_resource type="GDScript" id="GDScript_13jh8"]
+resource_name = "Pathfind"
+script/source = "extends CharacterBody2D
+
+@export var speed: float = 200.0
+@onready var agent: NavigationAgent2D = $NavigationAgent2D
+
+func _ready():
+	agent.target_position = global_position
+	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		set_movement_target(get_global_mouse_position())
+
+@export var movement_speed: float = 200.0
+@onready var navigation_agent: NavigationAgent2D = get_node(\"NavigationAgent2D\")
+var movement_delta: float
+
+func set_movement_target(movement_target: Vector2):
+	navigation_agent.set_target_position(movement_target)
+
+func _physics_process(delta):
+	# Do not query when the map has never synchronized and is empty.
+	if NavigationServer2D.map_get_iteration_id(navigation_agent.get_navigation_map()) == 0:
+		return
+	if navigation_agent.is_navigation_finished():
+		return
+
+	movement_delta = movement_speed * delta
+	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
+	var new_velocity: Vector2 = global_position.direction_to(next_path_position) * movement_delta
+	if navigation_agent.avoidance_enabled:
+		navigation_agent.set_velocity(new_velocity)
+	else:
+		velocity =  global_position.direction_to(next_path_position) * speed
+		move_and_slide()
+
+func _on_velocity_computed(safe_velocity: Vector2) -> void:
+	global_position = global_position.move_toward(global_position + safe_velocity, movement_delta)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_13jh8"]
+size = Vector2(128, 128)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ldcrm"]
+vertices = PackedVector2Array(1084.8281, 464, 1236.9063, 58.757813, 1251.9766, 679.34375, 1065.8125, 534.9219, 1065.8125, 393.07813, 940.8125, 61.078125, 937.60156, 57.867188, 52.59375, 55.242188, 699.10156, 57.15625, 695.1875, 61.078125, 361, 80.171875, 110.078125, 475.1875, 61.84375, 523.4219, 959.8281, 132, 1013.9219, 341.1875, 940.8125, 202.92188, 943, 322.17188, 888.9219, 254.8125, 872.0781, 341.1875, 818, 273.82813, 492.17188, 615, 505.40625, 664.3906, 306.09375, 660.3906, 322.82813, 598, 761.2031, 669.5078, 775.8281, 615, 943, 605.8281, 502.82813, 222, 676.1719, 132, 695.1875, 202.92188, 483.8125, 292.92188, 483.8125, 151.07813, 181, 456.17188, 747.0781, 254.8125, 820.1875, 393.07813, 1013.9219, 586.8125, 511.1875, 544.0781, 303.8125, 527.0781, 431.92188, 99.1875, 801.1719, 464, 431.92188, 344.8125, 238.1875, 292.92188, 251.92188, 475.1875, 219.17188, 222, 361, 363.82813, 820.1875, 534.9219, 704.9219, 492.1875, 563.0781, 492.1875, 290.07813, 344.8125, 872.0781, 586.8125, 756.8125, 544.0781, 634, 473.17188, 238.1875, 151.07813, 290.07813, 99.1875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(1, 0, 4), PackedInt32Array(5, 6, 1), PackedInt32Array(7, 8, 9, 10), PackedInt32Array(11, 12, 7), PackedInt32Array(5, 1, 4, 13), PackedInt32Array(13, 4, 14, 15), PackedInt32Array(15, 14, 16, 17), PackedInt32Array(17, 16, 18, 19), PackedInt32Array(20, 21, 22, 23), PackedInt32Array(2, 24, 25, 26), PackedInt32Array(27, 28, 29, 30), PackedInt32Array(28, 27, 31, 9), PackedInt32Array(32, 11, 7), PackedInt32Array(33, 19, 18, 34, 30), PackedInt32Array(35, 3, 2), PackedInt32Array(36, 20, 23, 37), PackedInt32Array(9, 31, 38), PackedInt32Array(30, 29, 33), PackedInt32Array(30, 34, 39, 40), PackedInt32Array(41, 42, 32, 7, 43), PackedInt32Array(44, 40, 39, 45, 46), PackedInt32Array(44, 47, 36, 37, 42, 48), PackedInt32Array(26, 35, 2), PackedInt32Array(49, 26, 25), PackedInt32Array(45, 49, 25, 50), PackedInt32Array(45, 50, 46), PackedInt32Array(44, 46, 51), PackedInt32Array(44, 51, 47), PackedInt32Array(41, 48, 42), PackedInt32Array(52, 43, 7), PackedInt32Array(53, 52, 7), PackedInt32Array(10, 53, 7), PackedInt32Array(10, 9, 38)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-14, 734, 1334, 761, 1315, -21, -29, -25)])
+agent_radius = 80.0
+
+[sub_resource type="Gradient" id="Gradient_tg8xx"]
+offsets = PackedFloat32Array(0.5, 0.52)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ja1sx"]
+gradient = SubResource("Gradient_tg8xx")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vg6is"]
+radius = 22.540543
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(110, 180)
+script = SubResource("GDScript_13jh8")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
+avoidance_enabled = true
+radius = 56.15
+debug_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("1_13jh8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_13jh8")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_ldcrm")
+
+[node name="Obstacle" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(361, 222)
+scale = Vector2(2.617505, 2.617505)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/Obstacle"]
+texture = SubResource("GradientTexture2D_ja1sx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Obstacle"]
+shape = SubResource("CircleShape2D_vg6is")
+
+[node name="Obstacle2" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(818, 132)
+scale = Vector2(2.617505, 2.617505)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/Obstacle2"]
+texture = SubResource("GradientTexture2D_ja1sx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Obstacle2"]
+shape = SubResource("CircleShape2D_vg6is")
+
+[node name="Obstacle3" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(943.00006, 464)
+scale = Vector2(2.617505, 2.617505)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/Obstacle3"]
+texture = SubResource("GradientTexture2D_ja1sx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Obstacle3"]
+shape = SubResource("CircleShape2D_vg6is")
+
+[node name="Obstacle4" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(181.00006, 598)
+scale = Vector2(2.617505, 2.617505)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/Obstacle4"]
+texture = SubResource("GradientTexture2D_ja1sx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Obstacle4"]
+shape = SubResource("CircleShape2D_vg6is")
+
+[node name="Obstacle5" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(634, 615)
+scale = Vector2(2.617505, 2.617505)
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/Obstacle5"]
+texture = SubResource("GradientTexture2D_ja1sx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Obstacle5"]
+shape = SubResource("CircleShape2D_vg6is")
