@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://hrcwv1dsr3fn"]
+
+[ext_resource type="Shader" uid="uid://cadb2sjy7x23x" path="res://components/shaders/team_col_shader.gdshader" id="1_mnp4d"]
+
+[resource]
+shader = ExtResource("1_mnp4d")
+shader_parameter/target_color = Color(0.7, 0, 0, 1)
