@@ -5,17 +5,13 @@
 [ext_resource type="Script" uid="uid://cvh7hea4hscm3" path="res://scenes/space_ship/space_ship.gd" id="2_c16ls"]
 [ext_resource type="Texture2D" uid="uid://li8obdodi5t8" path="res://assets/kenney/Ships/spaceShips_005.png" id="2_pw63i"]
 [ext_resource type="Script" uid="uid://bsd1op3prbby8" path="res://components/health_component.gd" id="4_pu3yx"]
-[ext_resource type="Script" uid="uid://dxlrjbl102iug" path="res://components/health_bar.gd" id="5_gubc5"]
+[ext_resource type="PackedScene" uid="uid://dvf0crwbonreq" path="res://components/health_bar.tscn" id="6_mngbo"]
 [ext_resource type="Script" uid="uid://dtj16nbsg7yd8" path="res://components/manual_control.gd" id="6_rt2n2"]
 [ext_resource type="PackedScene" uid="uid://d3darmcmdc4n1" path="res://scenes/exhaust_fire.tscn" id="8_18nlu"]
 [ext_resource type="Script" uid="uid://wasyv47uiiit" path="res://components/ship_gun.gd" id="9_c1pb6"]
 [ext_resource type="Resource" uid="uid://bis1lxg3d3fp5" path="res://scenes/weapons/laser_shot.tres" id="10_6wevv"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gubc5"]
-bg_color = Color(0.33333334, 0.33333334, 0.33333334, 0.39215687)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rt2n2"]
-bg_color = Color(0, 1, 0, 0.39215687)
+[ext_resource type="Resource" uid="uid://s3xscetj0201" path="res://scenes/weapons/missile_settings.tres" id="11_e1cbu"]
+[ext_resource type="PackedScene" uid="uid://cd2ktpx3oscb3" path="res://scenes/space_ship/enemy_drone.tscn" id="12_mngbo"]
 
 [node name="MainScene" type="Node2D"]
 
@@ -52,17 +48,7 @@ position = Vector2(0, -61)
 script = ExtResource("4_pu3yx")
 metadata/_custom_type_script = "uid://bsd1op3prbby8"
 
-[node name="HealthBar" type="ProgressBar" parent="PlayerShip/HealthComponent"]
-offset_left = -35.0
-offset_top = -5.0
-offset_right = 35.0
-offset_bottom = 5.0
-theme_override_styles/background = SubResource("StyleBoxFlat_gubc5")
-theme_override_styles/fill = SubResource("StyleBoxFlat_rt2n2")
-value = 73.38
-show_percentage = false
-script = ExtResource("5_gubc5")
-metadata/_custom_type_script = "uid://dxlrjbl102iug"
+[node name="HealthBar" parent="PlayerShip/HealthComponent" instance=ExtResource("6_mngbo")]
 
 [node name="ManualControl" type="Node" parent="PlayerShip"]
 script = ExtResource("6_rt2n2")
@@ -79,6 +65,7 @@ position = Vector2(-16, -26)
 rotation = -1.5707964
 script = ExtResource("9_c1pb6")
 loaded_primary = ExtResource("10_6wevv")
+loaded_secondary = ExtResource("11_e1cbu")
 metadata/_custom_type_script = "uid://wasyv47uiiit"
 
 [node name="ShipGunRight" type="Node2D" parent="PlayerShip"]
@@ -86,4 +73,8 @@ position = Vector2(16, -26)
 rotation = -1.5707964
 script = ExtResource("9_c1pb6")
 loaded_primary = ExtResource("10_6wevv")
+loaded_secondary = ExtResource("11_e1cbu")
 metadata/_custom_type_script = "uid://wasyv47uiiit"
+
+[node name="EnemyDrone" parent="." instance=ExtResource("12_mngbo")]
+position = Vector2(330, -164)

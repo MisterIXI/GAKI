@@ -3,8 +3,6 @@ extends Resource
 
 @export var projectile_scene: PackedScene = null
 
-
-
 @export_group("Missile Settings")
 @export_custom(PROPERTY_HINT_GROUP_ENABLE,"") var is_missile: bool = false
 ## fuel duration of missile until it runs out

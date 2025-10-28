@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://cd2ktpx3oscb3"]
+
+[ext_resource type="Script" uid="uid://cvh7hea4hscm3" path="res://scenes/space_ship/space_ship.gd" id="1_db74s"]
+[ext_resource type="Texture2D" uid="uid://wj8ba3ne07qk" path="res://assets/kenney/Ships/spaceShips_008.png" id="2_h3l3q"]
+[ext_resource type="PackedScene" uid="uid://d3darmcmdc4n1" path="res://scenes/exhaust_fire.tscn" id="3_tyql0"]
+[ext_resource type="Script" uid="uid://bsd1op3prbby8" path="res://components/health_component.gd" id="4_l27h7"]
+[ext_resource type="PackedScene" uid="uid://dvf0crwbonreq" path="res://components/health_bar.tscn" id="5_hnl7i"]
+
+[node name="EnemyDrone" type="RigidBody2D"]
+script = ExtResource("1_db74s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 3.1415927
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_h3l3q")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+rotation = -3.1415925
+scale = Vector2(0.4, 0.4)
+polygon = PackedVector2Array(49.99999, -77.5, -42.500004, -77.49999, -61.201477, -68.77263, -80, -59.999985, -107.49999, 35.000004, -59.999985, 80, -42.3, 76, -39.999992, 22.500002, -31.800003, 15.199997, -19, 53, 18.5, 53, 31, 14.300003, 40, 24.999994, 42.500004, 74.99999, 60, 79.999985, 107.49999, 32.49999, 82.499985, -60)
+
+[node name="ExhaustFireLeft" parent="." instance=ExtResource("3_tyql0")]
+position = Vector2(-12, 46)
+
+[node name="ExhaustFireRight" parent="." instance=ExtResource("3_tyql0")]
+position = Vector2(12, 46)
+
+[node name="HealthComponent" type="Node2D" parent="."]
+position = Vector2(0, -42)
+script = ExtResource("4_l27h7")
+metadata/_custom_type_script = "uid://bsd1op3prbby8"
+
+[node name="HealthBar" parent="HealthComponent" instance=ExtResource("5_hnl7i")]

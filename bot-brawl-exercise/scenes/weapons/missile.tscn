@@ -1,14 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://qjru4sp7fog1"]
+[gd_scene load_steps=8 format=3 uid="uid://qjru4sp7fog1"]
 
 [ext_resource type="Script" uid="uid://d0ajfc8cbyc1h" path="res://scenes/weapons/missile.gd" id="1_s66l8"]
 [ext_resource type="Texture2D" uid="uid://bxwb4ex2o6yqg" path="res://assets/kenney/Missiles/spaceMissiles_001.png" id="2_dhosa"]
 [ext_resource type="PackedScene" uid="uid://d3darmcmdc4n1" path="res://scenes/exhaust_fire.tscn" id="3_e40un"]
+[ext_resource type="Texture2D" uid="uid://bss2lhpd5dkbl" path="res://assets/kenney/Effects/spaceEffects_016.png" id="4_8km53"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e40un"]
 radius = 4.0
 height = 28.0
 
+[sub_resource type="Curve" id="Curve_3ak7b"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.09883723, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.0654807, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_uy48l"]
+offsets = PackedFloat32Array(0.65753424, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="Missile" type="RigidBody2D"]
+collision_layer = 2
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_s66l8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -24,3 +36,34 @@ shape = SubResource("CapsuleShape2D_e40un")
 position = Vector2(-20, -1.350031e-13)
 rotation = 1.5707964
 scale = Vector2(0.4, 0.4)
+
+[node name="ShipDetector" type="Area2D" parent="."]
+rotation = 1.5707964
+collision_layer = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShipDetector"]
+polygon = PackedVector2Array(0, 0, -60, -60, 60, -60)
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 100
+texture = ExtResource("4_8km53")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.77
+randomness = 0.57
+emission_shape = 1
+emission_sphere_radius = 50.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 30.0
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+scale_amount_min = 0.1
+scale_amount_max = 0.3
+scale_amount_curve = SubResource("Curve_3ak7b")
+color_ramp = SubResource("Gradient_uy48l")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="ShipDetector" to="." method="_on_ship_detector_body_entered"]
+[connection signal="body_exited" from="ShipDetector" to="." method="_on_ship_detector_body_exited"]
