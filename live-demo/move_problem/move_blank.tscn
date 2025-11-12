@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckfw0xwodfxwf"]
+
+[ext_resource type="Texture2D" uid="uid://c4tuj0ne0rry" path="res://spaceMissiles_001.png" id="1_xfv46"]
+
+[sub_resource type="GDScript" id="GDScript_xfv46"]
+resource_name = "rocket_mover"
+script/source = "extends Sprite2D
+
+func _physics_process(delta):
+	position.y += -60 * delta
+	#rotation += 1 * delta
+"
+
+[node name="MoveBlank" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_xfv46")
+script = SubResource("GDScript_xfv46")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -74)
+zoom = Vector2(2.66, 2.66)
