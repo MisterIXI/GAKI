@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://on0w6xs3xhq4"]
+
+[ext_resource type="Shader" uid="uid://hd1b3vuwau86" path="res://spatial_wobble.gdshader" id="1_07coq"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_07coq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2uk02"]
+render_priority = 0
+shader = ExtResource("1_07coq")
+shader_parameter/wobble_speed = 2.39600011055012
+shader_parameter/wobble_amplitude = 0.23200001032148
+
+[sub_resource type="SphereMesh" id="SphereMesh_q65e0"]
+material = SubResource("ShaderMaterial_2uk02")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q65e0"]
+render_priority = 0
+shader = ExtResource("1_07coq")
+shader_parameter/wobble_speed = 1.0
+shader_parameter/wobble_amplitude = 0.1
+
+[sub_resource type="TorusMesh" id="TorusMesh_o1w2u"]
+material = SubResource("ShaderMaterial_q65e0")
+
+[node name="WobbleSphere" type="Node3D"]
+
+[node name="Sphere" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6930461, 0, 0)
+mesh = SubResource("SphereMesh_07coq")
+
+[node name="SphereWobble" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_q65e0")
+
+[node name="TorusWobble" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8587455, 0, 0)
+mesh = SubResource("TorusMesh_o1w2u")

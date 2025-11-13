@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5vn2eosj5efl"]
+
+[ext_resource type="Shader" uid="uid://cw23yl052f4wl" path="res://team_color.gdshader" id="1_qm63b"]
+[ext_resource type="Texture2D" uid="uid://ck8t4h3lbrqkt" path="res://assets/spaceShips_005.png" id="2_eilwv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_juhcm"]
+shader = ExtResource("1_qm63b")
+shader_parameter/target_color = Color(0.5696908, 0.12903792, 0.60089654, 1)
+
+[node name="team_col_demo" type="Node2D"]
+
+[node name="TeamCol" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_juhcm")
+position = Vector2(454, 235)
+texture = ExtResource("2_eilwv")

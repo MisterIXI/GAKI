@@ -1,0 +1,62 @@
+[gd_scene load_steps=12 format=3 uid="uid://4urhvt7li2cr"]
+
+[ext_resource type="Shader" uid="uid://d2tcwylh22grb" path="res://uv_map.gdshader" id="1_of074"]
+[ext_resource type="Script" uid="uid://bcnpcvvgt1m4g" path="res://basic_demo.gd" id="2_rpkg0"]
+[ext_resource type="Shader" uid="uid://tklwj8d32tm6" path="res://wobble.gdshader" id="3_xphyw"]
+[ext_resource type="Texture2D" uid="uid://ck8t4h3lbrqkt" path="res://assets/spaceShips_005.png" id="4_jbb1j"]
+[ext_resource type="Shader" uid="uid://bxaxsaaoyei6c" path="res://uniform_examples.gdshader" id="5_jbb1j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wysws"]
+shader = ExtResource("1_of074")
+
+[sub_resource type="Gradient" id="Gradient_of074"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rpkg0"]
+gradient = SubResource("Gradient_of074")
+width = 15
+height = 15
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pa4tq"]
+shader = ExtResource("3_xphyw")
+shader_parameter/wave_frequency = 10.0
+shader_parameter/wave_speed = 5.0
+shader_parameter/wave_amplitude = 0.01
+
+[sub_resource type="QuadMesh" id="QuadMesh_b3so3"]
+lightmap_size_hint = Vector2i(1002, 1002)
+size = Vector2(200, 200)
+subdivide_width = 200
+subdivide_depth = 200
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b3so3"]
+shader = ExtResource("5_jbb1j")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/amount = 0.0
+shader_parameter/other_color = Color(1, 1, 1, 1)
+
+[node name="basic_demo" type="Node2D"]
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_wysws")
+position = Vector2(99, 167)
+scale = Vector2(74.965, 74.965)
+texture = SubResource("GradientTexture2D_rpkg0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(605.00006, 305)
+scale = Vector2(30, 30)
+texture = SubResource("GradientTexture2D_rpkg0")
+script = ExtResource("2_rpkg0")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_pa4tq")
+position = Vector2(1027, 171)
+mesh = SubResource("QuadMesh_b3so3")
+texture = ExtResource("4_jbb1j")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_b3so3")

@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://dqebjebdceovg"]
+
+[ext_resource type="Shader" uid="uid://bna6ijuwmyna7" path="res://cloak.gdshader" id="1_8sfsu"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_d04xx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6m36y"]
+render_priority = 0
+shader = ExtResource("1_8sfsu")
+shader_parameter/pulse_speed = 2.07900009549262
+shader_parameter/pulse_amplitude = 0.5
+shader_parameter/scroll_speed = 3.79200017686012
+
+[sub_resource type="SphereMesh" id="SphereMesh_7w8ln"]
+material = SubResource("ShaderMaterial_6m36y")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rdec7"]
+render_priority = 0
+shader = ExtResource("1_8sfsu")
+shader_parameter/pulse_speed = 2.96700013767262
+shader_parameter/pulse_amplitude = 1.0
+shader_parameter/scroll_speed = 1.00000004424012
+
+[sub_resource type="TorusMesh" id="TorusMesh_mw2v0"]
+material = SubResource("ShaderMaterial_rdec7")
+
+[node name="CloakShaders" type="Node3D"]
+
+[node name="Sphere" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6930461, 0, 0)
+mesh = SubResource("SphereMesh_d04xx")
+
+[node name="SphereWobble" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_7w8ln")
+
+[node name="TorusWobble" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8587455, 0, 0)
+mesh = SubResource("TorusMesh_mw2v0")
